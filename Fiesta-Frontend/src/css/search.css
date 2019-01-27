@@ -1,0 +1,122 @@
+body {
+  background-color: rgb(255, 255, 255);
+  font: 400 1.188em/1.38 Helvetica;
+  color: rgb(0, 0, 0);
+}
+
+.element {
+  float: left;
+  clear: both;
+}
+
+.text {
+  float: left;
+  text-align: center;
+}
+
+._button {
+  display: block;
+  position: relative;
+  float: left;
+  z-index: 7;
+  width: 2.5%;
+  height: 29px;
+  margin: -76px 0 0 79.33073%;
+  border-radius: 3px;
+  background: url('../images/searchicon.png') rgb(222, 222, 222);
+  background-repeat: no-repeat;
+  background-size: 30px 29px;
+  background-position: center center;
+  font-size: 0.842em;
+  text-align: center;
+  color: rgb(0, 0, 0);
+}
+
+._input {
+  display: block;
+  position: relative;
+  float: left;
+  height: 27px;
+  margin-top: -74px;
+  padding: 0 10px;
+  background-color: rgb(242, 242, 242);
+  font-size: 0.684em;
+  color: rgb(0, 0, 0);
+}
+
+.element-1 {
+  position: relative;
+  z-index: 2;
+  width: 69.6666666666%;
+  height: 120px;
+  margin: 41px 0 0 14.33203%;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 20px;
+  background-color: #fd8b8e;
+}
+
+.element-2 {
+  width: 69.5833333333%;
+  height: 490px;
+  margin: 44px 0 0 15.19922%;
+  border-radius: 18px;
+  background-color: rgb(44, 69, 9);
+}
+
+.text-1 {
+  width: 32.4%;
+  min-height: 38px;
+  margin: 35px 0 0 33.81640625%;
+  font-size: 1.263em;
+  font-weight: 700;
+  color: rgb(26, 27, 181);
+}
+
+.text-2 {
+  position: relative;
+  clear: both;
+  z-index: 3;
+  width: 13.5989583333%;
+  min-height: 26px;
+  margin: -74px 0 0 16%;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 8px;
+  background-color: rgba(249, 238, 238, 0.95);
+  font-size: 1.053em;
+  color: rgb(0, 0, 0);
+}
+
+.text-3 {
+  position: relative;
+  z-index: 5;
+  width: 14.3997395833%;
+  min-height: 27px;
+  margin: -74px 0 0 46.71224%;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 8px;
+  background-color: rgba(251, 247, 247, 0.98);
+  font-size: 1em;
+  color: rgb(0, 0, 0);
+}
+
+.text-4 {
+  width: 28%;
+  min-height: 36px;
+  margin: 42px 0 0 36.4%;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 10px;
+  font-size: 1.211em;
+  color: rgb(0, 0, 0);
+}
+
+._input-1 {
+  z-index: 4;
+  width: 13.5989583333%;
+  margin-left: 30.39974%;
+}
+
+._input-2 {
+  z-index: 6;
+  width: 14.4166666666%;
+  margin-left: 61.98307%;
+}

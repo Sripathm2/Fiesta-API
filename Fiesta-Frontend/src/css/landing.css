@@ -1,0 +1,41 @@
+.navbar{
+    position: fixed; /* Set the navbar to fixed position */
+    top: 0; /* Position the navbar at the top of the page */
+    width: 100%; /* Full width */
+}
+#landing
+{
+    background-image: url('../res/landing.jpg');
+    max-width: auto;
+    max-height: auto;
+    height: 750px;
+    width: 100%;
+   
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.landingimg{
+    max-width: 50%;
+    max-height: 50%;
+    height: auto;
+    width: auto\9;
+}
+
+#about {
+    width: auto;
+    height: 700px;
+    padding: 100px 100px;    
+    background-color: rgba(246, 247, 248, 0.842);
+    color: rgba(0, 40, 126, 0.89);
+}
+
+#contact {
+    color: white;
+    width: auto;
+    height: 650px;
+    padding: 100px 100px;
+    background-color: rgba(0, 40, 126, 0.89); 
+}
