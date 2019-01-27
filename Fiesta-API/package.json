@@ -1,7 +1,7 @@
 {
   "name": "carnet-api",
   "version": "0.0.1",
-  "description": "Carnet API",
+  "description": "Fiesta API",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",

@@ -14,7 +14,7 @@ describe('index', function() {
                 .get('/')
                 .end((err, res) => {
                     res.should.have.status(200);
-                    res.text.should.be.eql('All SET Carnet');
+                    res.text.should.be.eql('All SET Fiesta');
                     done();
                 });
         });

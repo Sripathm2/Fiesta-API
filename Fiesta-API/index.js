@@ -7,7 +7,6 @@ let cors = require('cors');
 let userRoutes = require('./app/routes/user-router');
 let authRoutes = require('./app/routes/auth-router');
 let feedbackRoutes = require('./app/routes/feedback-router');
-let notebookRoutes = require('./app/routes/notebook-router');
 let Versioning = require('express-routes-versioning');
 
 // Set up app
@@ -28,7 +27,7 @@ app.use(bodyParser.json());
 // Base route to verify functionality
 
 app.get('/', function(req, res) {
-    res.send('All SET Carnet');
+    res.send('All SET Fiesta');
 });
 
 // Registration route
@@ -43,10 +42,6 @@ app.use('/auth', routesVersioning({
 
 app.use('/feedback', routesVersioning({
     '1.0.0': feedbackRoutes,
-}));
-
-app.use('/notebook', routesVersioning({
-    '1.0.0': notebookRoutes,
 }));
 
 // Go with Heroku's env port number or your own
