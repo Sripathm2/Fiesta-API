@@ -1,5 +1,5 @@
 {
-  "name": "carnet-api",
+  "name": "Fiesta-api",
   "version": "0.0.1",
   "description": "Fiesta API",
   "main": "index.js",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sripathm22/Carnet_API.git"
+    "url": "git+https://github.com/sripathm22/Fiesta.git"
   },
   "keywords": [
     "API",
@@ -20,12 +20,12 @@
   "author": "Carnet",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/sripathm22/Carnet_API/issues"
+    "url": "https://github.com/sripathm22/Fiesta/issues"
   },
   "engines": {
     "node": "10.13.0"
   },
-  "homepage": "https://github.com/sripathm22/Carnet_API#readme",
+  "homepage": "https://github.com/sripathm22/Fiesta#readme",
   "dependencies": {
     "base64url": "^2.0.0",
     "bcrypt": "2.0.0",
@@ -54,7 +54,7 @@
     "mocha": "^2.5.3"
   },
   "apidoc": {
-    "title": "Carnet API Documentation",
+    "title": "Fiesta API Documentation",
     "template": {
       "forceLanguage": "en"
     }

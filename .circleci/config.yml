@@ -37,4 +37,4 @@ jobs:
       - run: node Setup.js
 
       # run tests!
-      - run: npm test
+      #- run: npm test
