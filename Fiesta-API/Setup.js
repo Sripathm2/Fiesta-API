@@ -22,6 +22,7 @@ const insert_user = 'INSERT INTO Users (userName, password, email , securityQues
 const create_feedback_table = 'CREATE TABLE Feedback (feedbackText text)';
 
 function create_user_table_function() {
+    console.log(process.env.DB_URL);
     pool.query(create_user_table, (err, res) => {
         pool.end();
 
