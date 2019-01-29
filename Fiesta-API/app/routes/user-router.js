@@ -129,7 +129,7 @@ userRoutes.post('/register', (req, res) => {
         connectionString: connectionString,
     });
 
-    pool.query(Insert_User, [user.userName, user.password, user.email, user.securityQuestion, user.securityAnswer, user.name, ' ' ],  (err, response) => {
+    pool.query(Insert_User, [user.userName, user.password, user.email, user.securityQuestion, user.securityAnswer, user.name, ' ', ],  (err, response) => {
 
         if(err){
             pool.end();
