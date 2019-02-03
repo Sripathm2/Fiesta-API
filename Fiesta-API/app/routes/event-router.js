@@ -34,39 +34,36 @@ eventRoutes.get('/event', (req, res) => {
         });
     }
     
-    var searchRadius = 50;
+    const searchRadius = 50;
 
     axios.get('https://eventup.com/api/v3/search/place/', {
-        params: {
-            budget: req.query.budget,
-            radius: searchRadius,
-            search: req.query.searchRequest,
-        }
-    })
-    .then(function (response) {
-        var ven = response.data.venues;
-        var ret = [];
-        for (var i = 0; i < response.data.count; i++) {
-            if (i >= 100) {
-                break;
+            params: {
+                budget: req.query.budget,
+                radius: searchRadius,
+                search: req.query.searchRequest
             }
-            if (i in ven) {
-                if ('title' in ven[i]) {
-                    ret.push(ven[i]['title']);
-                    console.log(ven[i]['title']);
+        })
+        .then(function (response) {
+            const ven = response.data.venues;
+            let ret = [];
+            for (let i = 0; i < response.data.count; i++) {
+                if (i >= 100) {
+                    break;
+                }
+                if (i in ven) {
+                    if ('title' in ven[i]) {
+                        ret.push(ven[i]['title']);
+                    }
                 }
             }
-        }
-        //console.log(ret);
-        res.send({
-            results: ret,
+            res.send({
+                results: ret,
+            });
+        })
+        .catch(function (error) {
+            return res.status(500).send({
+                errorType: 'Internal Error',
+                message: error,
+            });
         });
-    })
-    .catch(function (error) {
-        //console.log(error);
-        return res.status(500).send({
-            errorType: 'Internal Error',
-            message: error,
-        });
-    });
 });
