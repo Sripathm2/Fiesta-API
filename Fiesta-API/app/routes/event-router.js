@@ -37,12 +37,12 @@ eventRoutes.get('/event', (req, res) => {
     const searchRadius = 50;
 
     axios.get('https://eventup.com/api/v3/search/place/', {
-            params: {
-                budget: req.query.budget,
-                radius: searchRadius,
-                search: req.query.searchRequest
-            }
-        })
+        params: {
+            budget: req.query.budget,
+            radius: searchRadius,
+            search: req.query.searchRequest,
+        },
+    })
         .then(function (response) {
             const ven = response.data.venues;
             let ret = [];
