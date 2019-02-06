@@ -9,10 +9,10 @@ let designsRoutes = express.Router();
  * @apiName designs
  * @apiGroup designs
  *
- * @apiQuery (body) {String} 
- *                  {String} 
+ * @apiQuery (body) {String}
+ *                  {String}
  *
- * @apiSuccess {String} 
+ * @apiSuccess {String}
  * @apiError (RequestFormatError) 422
  * @apiError (Internal Error) 500+ Internal Error
 **/
