@@ -10,20 +10,20 @@ let eventRoutes = express.Router();
  * @apiName event
  * @apiGroup event
  *
- * @apiQuery (body) {String} searchRequest of the user.
- *                      {String} budget of the user.
+ * @apiQuery (body) {String} location name OR {String} location latitude,longitude.
+ *                  {String} budget of the user.
  *
  * @apiSuccess {String} up to 100 results.
- * @apiError (RequestFormatError) 422 For missing data or invalid searchRequest or budget.
+ * @apiError (RequestFormatError) 422 For missing data or invalid location/lat,lon or budget.
  * @apiError (Internal Error) 500+ Internal Error
 **/
 
 eventRoutes.get('/event', (req, res) => {
     
-    if (!req.query.searchRequest) {
+    if (!req.query.location && !req.query.latlon) {
         return res.status(422).send({
             errorType: 'RequestFormatError',
-            message: 'Must include searchRequest.',
+            message: 'Must include location or latitude,longitude.',
         });
     }
     
@@ -35,12 +35,18 @@ eventRoutes.get('/event', (req, res) => {
     }
     
     const searchRadius = 50;
+    let url = 'https://eventup.com/api/v3/search/';
+    if (req.query.location) {
+        url = url + 'place/';
+    } else {
+        url = url + 'lat_lng/' + req.query.latlon + '/';
+    }
 
-    axios.get('https://eventup.com/api/v3/search/place/', {
+    axios.get(url, {
         params: {
             budget: req.query.budget,
             radius: searchRadius,
-            search: req.query.searchRequest,
+            search: req.query.location,
         },
     })
         .then(function (response) {
