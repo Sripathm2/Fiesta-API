@@ -34,7 +34,23 @@ eventRoutes.get('/event', (req, res) => {
         });
     }
     
+    let coords = req.query.latlon.split(',');
+    if (coords.length != 2 || isNaN(coords[0]) || isNaN(coords[1])) {
+        return res.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Invalid latitude,longitude format.',
+        });
+    }
+    
+    if (+coords[0] < -180 || +coords[0] > 180 || +coords[1] < -90 || +coords[1] > 90) {
+        return res.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Invalid values for latitude/longitude.',
+        });
+    }
+    
     const searchRadius = 50;
+    
     let url = 'https://eventup.com/api/v3/search/';
     if (req.query.location) {
         url = url + 'place/';
