@@ -63,3 +63,8 @@ body{
     justify-content: center;
     color: white;
 }
+
+#teamimg{
+    height:200px;
+    width: 200px;
+}

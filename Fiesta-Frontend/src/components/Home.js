@@ -106,9 +106,11 @@ const Home = () => (
                 </div>
                 <div className="row">
                     <div className="col-sm">
+                        <img id="teamimg" src= {require("../res/shiv.jpg")}></img>
                         <h4>Shivangi Chand</h4>
                     </div>
                     <div className="col-sm">
+                        <img id="teamimg" src= {require("../res/pooja.jpg")}></img>
                         <h4>Pooja Tewari</h4>
                     </div>
                 </div>
@@ -120,12 +122,15 @@ const Home = () => (
                 </div>
                 <div className="row">
                     <div className="col-sm">
+                        <img id="teamimg" src= {require("../res/siddharth.jpg")}></img>
                         <h4>Siddharth Dhar</h4>
                     </div>
                     <div className="col-sm">
+                        <img id="teamimg" src= {require("../res/sri.jpg")}></img>
                         <h4>Sripath Mishra</h4>
                     </div>
                     <div className="col-sm">
+                        <img id="teamimg" src= {require("../res/createinvite.jpg")}></img>
                         <h4>Ethan Niu</h4>
                     </div>
                 </div>
