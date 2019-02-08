@@ -35,7 +35,7 @@ eventRoutes.get('/event', (req, res) => {
     }
     
     let coords = req.query.latlon.split(',');
-    if (coords.length != 2 || isNaN(coords[0]) || isNaN(coords[1])) {
+    if (coords.length !== 2 || isNaN(coords[0]) || isNaN(coords[1])) {
         return res.status(422).send({
             errorType: 'RequestFormatError',
             message: 'Invalid latitude,longitude format.',
