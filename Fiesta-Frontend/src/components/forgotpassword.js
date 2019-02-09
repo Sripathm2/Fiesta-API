@@ -3,21 +3,48 @@ import '../css/forgetpassword-grid.css';
 import '../css/standardize.css';
 import '../css/styles.css';
 import axios from 'axios'
+import '../css/bootstrap.css';
+import '../css/bootstrap-grid.css'; 
+import '../css/forgot.css'; 
 
 const forgotpassword = () => (
     load(),
+        
         <div className="App body page-forgetpassword clearfix">
-            <div className="container _element container-3"></div>
-            <div className="container"></div>
-            <input id = "Q"className="_input _input-5" placeholder="Enter Security Question" type="text"/>
-            <input id = "A" className="_input _input-7" placeholder="Answer" type="text"/>
-            <input id = "password"className="_input _input-10" placeholder="Password" type="password"/>
-            <input id = "repass"className="_input _input-14" placeholder="Re-Enter Password" type="password"/>
-            <button className="_button _button-1" onClick={reset}>Reset</button>
-            <p className="text1">Reset Password</p>
-            <p className="text text-4"><a>Login</a></p>
+            <div id = "forgotcont"className="container _element container-3">
+            <div className="col-sm-12 col-md-12 col-lg-12">
+                <img id = "forgotimg" src={require("../res/fiestalogo.png")} alt="cannot display"/>
+            </div>
+            <br></br>
+            <h4>Reset Password</h4>
+            <hr></hr>
+            <form>
+            
+            <div class="form-group">
+                <input type="text" class="form-control _input _input-5" id="formGroupExampleInput Q" placeholder="Enter Security Question"></input>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control _input _input-7" id="formGroupExampleInput2 A" placeholder="Answer"></input>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control _input _input-10" id="formGroupExampleInput2 password" placeholder="New Password"></input>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control _input _input-14" id="formGroupExampleInput2 repass" placeholder="Re-Enter New Password"></input>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                <button type="submit" onClick={reset} class="btn btn-dark _button _button-1">Reset</button>
+                </div>
+                <div class="col">
+                <button type="submit" class="btn btn-dark _button _button-1">Login</button>
+                </div>
+            </div>
+            </form>
 
-
+           {/*<p className="text1">Reset Password</p>*/} 
+            
+            </div>
         </div>
 );
 
