@@ -1,20 +1,49 @@
 import React from 'react';
-import '../css/signup-grid.css';
+import '../css/forgetpassword-grid.css';
 import '../css/standardize.css';
 import '../css/styles.css';
 import axios from 'axios'
 import {Link} from "react-router-dom";
+import '../css/bootstrap.css';
+import '../css/bootstrap-grid.css';
+import '../css/login.css';
 
 
 const login = () => (
     <div className="App body page-index clearfix">
-        <div class="container12132332e"></div>
-        <div class="container2323"></div>
-        <input id="username" className="_input _input-13" placeholder="Username" type="text"/>
-        <input id="password" className="_input _input-16" placeholder="Password" type="password"/>
-        <button className="_button _button-2" onClick={enter}>Login</button>
-        <p className="text text-3">Forgot Password? <a onClick={forgotPassword}>Click Here</a></p>
-        <Link to="/create_user" >New to Carnet? </Link>
+
+        <div id = "logincon"  className = "container _element container-3">
+            <div className ="col-sm-12 col-md-12 col-lg-12">
+                <img id="loginimg" src={require("../res/fiestalogo.png")}  alt="cannot display"/>
+            </div>
+
+            <br></br>
+            <h4>Login</h4>
+            <hr></hr>
+
+            <form>
+
+                    <div class = "form-group">
+                            <input type="text" class="form-control _input _input-13" id ="formGroupExampleInput username" placeholder="Username"/>
+                    </div>
+
+                    <div class = "form-group">
+                            <input type="password" class="form-control _input _input-16" id ="formGroupExampleInput username" placeholder="Password"/>
+                    </div>
+
+                    <div class = "form-row">
+                            <div class = "col">
+                                    <button type="submit" onClick={enter} class="btn btn-dark _button _button-2">Login</button>
+                            </div>
+                    </div>
+            </form>
+            <div>
+                <br></br>
+                <p className="text text-3">Forgot Password? <a onClick={forgotPassword}>Click Here</a></p>
+                <br></br>
+                <Link to="/create_user" color = "black">New to Fiesta? </Link>
+            </div>
+        </div>
     </div>
 );
 
