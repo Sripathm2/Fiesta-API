@@ -55,7 +55,7 @@ const Home = () => (
                 </div>
             </div>
         </div>
-        
+
         <div id="about" className="d-flex align-items-center">
             <div className="container-fluid">
                 <div className="row">
@@ -101,7 +101,7 @@ const Home = () => (
                 <hr></hr>
                 <div className="row">
                     <div className="col-sm">
-                        <h3>Frontend</h3> 
+                        <h3>Frontend</h3>
                     </div>
                 </div>
                 <div className="row">
@@ -117,7 +117,7 @@ const Home = () => (
                 <hr></hr>
                 <div className="row">
                     <div className="col-sm">
-                        <h3>Backend</h3> 
+                        <h3>Backend</h3>
                     </div>
                 </div>
                 <div className="row">
@@ -144,7 +144,7 @@ const Home = () => (
                     </div>
                 </div>
                 <hr></hr>
-                
+
                 <p>Have any questions, comments, or concerns? Send us a message below!</p>
                 <form>
                     <div class="form row">
@@ -163,9 +163,9 @@ const Home = () => (
                     </div>
                     <hr></hr>
                     <div className="form-group">
-                        
+
                         <textarea className="form-control" id="exampleFormControlTextarea1" rows="8" placeholder="Message"></textarea>
-                        
+
                     </div>
                     <hr></hr>
                     <button type="submit" className="btn btn-dark">Submit</button>
