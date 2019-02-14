@@ -117,7 +117,8 @@ eventRoutes.get('/event', (req, res) => {
  * @apiSuccess {String} eventID.
  * @apiError (RequestFormatError) 422 For missing parameter(s).
  * @apiError (Internal Error) 500+ Internal Error.
- */
+**/
+
 eventRoutes.post('/create', (req, res) => {
     
     if (!req.body.userName) {
