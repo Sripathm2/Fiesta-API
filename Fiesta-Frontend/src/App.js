@@ -6,7 +6,7 @@ import Home from './components/Home'
 import Dashboard from './components/Dashboard'
 import login from './components/login'
 import forgotpassword from './components/forgotpassword'
-
+import event from './components/event'
 
 import Route from "react-router/es/Route";
 
@@ -18,7 +18,7 @@ const App = () => (
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/login" component={login}/>
             <Route path="/forgot" component={forgotpassword}/>
-
+            <Route path="/event" component={event}/>
         </div>
     </Router>
 );

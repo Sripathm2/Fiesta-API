@@ -14,7 +14,6 @@ export default class event extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-
     openModal() {
         this.setState({
             visible : true
@@ -38,6 +37,7 @@ export default class event extends React.Component {
 
 
         <nav id = "navevent" className="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+      
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
@@ -108,6 +108,7 @@ export default class event extends React.Component {
 
                 <div class="form-group row">
                     <div class="col-2">
+
                         <label for="example-date-input" class="col-2 col-form-label">Date</label>
                     </div>
                     <div class="col-10">
@@ -117,6 +118,7 @@ export default class event extends React.Component {
 
                 <div class="form-group row">
                     <div class="col-2">
+
                         <label for="example-time-input" class="col-2 col-form-label">Time</label>
                     </div>
                     <div class="col-10">
@@ -245,6 +247,7 @@ export default class event extends React.Component {
       removeTask(index, event) {
         const tasks = this.state.tasks
         tasks.splice(index, 1)
+
         this.setState({tasks})
       }
 }

@@ -6,7 +6,7 @@ import '../css/bootstrap-grid.css';
 
 const Home = () => (
     <div className="App">
-        <nav className="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+        <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light">
             <a className="navbar-brand" href="#landing">Fiesta</a>
 
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -51,7 +51,7 @@ const Home = () => (
                     <p class="lead">You're personal party planning app!</p>
                     <hr class="my-4"></hr>
                     <p>Having difficulty planning the next big event? We're here to help!</p>
-                    <a class="btn btn-dark btn-lg" href="#about" role="button">Learn more</a>
+                    <a class="btn btn-info btn-lg" href="#about" role="button">Learn more</a>
                 </div>
             </div>
         </div>
@@ -126,11 +126,11 @@ const Home = () => (
                         <h4>Siddharth Dhar</h4>
                     </div>
                     <div className="col-sm">
-                        <img id="teamimg" src= {require("../res/sri.jpg")}></img>
+                        <img id="teamimg" src= {require("../res/sri.JPG")}></img>
                         <h4>Sripath Mishra</h4>
                     </div>
                     <div className="col-sm">
-                        <img id="teamimg" src= {require("../res/createinvite.jpg")}></img>
+                        <img id="teamimg" src= {require("../res/ethan.jpg")}></img>
                         <h4>Ethan Niu</h4>
                     </div>
                 </div>
@@ -168,7 +168,7 @@ const Home = () => (
 
                     </div>
                     <hr></hr>
-                    <button type="submit" className="btn btn-dark">Submit</button>
+                    <button type="submit" className="btn btn-dark" onClick={enter}>Submit</button>
                 </form>
             </div>
 
@@ -182,4 +182,24 @@ const Home = () => (
     </div>
 );
 
+function enter() {
+    let data = {};
+    data.text = document.getElementById("exampleFormControlTextarea1").value;
+    
+    let url = 'https://fiesta.herokuapp.com/user/feedback';
+    
+    axios({
+        method: 'post',
+        url: url,
+        data: {
+            feedbackText: data.text
+        }
+    })
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
 export default Home;
