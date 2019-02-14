@@ -390,26 +390,28 @@ userRoutes.get('/getData', (req, res) => {
 
 // Nodemailer
 
-var maillist = ['dharsiddharth16@gmail.com'];
+let maillist = ['dharsiddharth16@gmail.com', ];
 
-var transporter = nodemailer.createTransport ({
+let transporter = nodemailer.createTransport ({
     service: 'gmail',
     auth: {
         user: 'incfiesta@gmail.com',
-        pass: 'fiesta2019.'
-    }
+        pass: 'fiesta2019.',
+    },
 });
 
-fs.readFile('app/routes/invitecard.html', {encoding: 'utf-8'}, function (err, html) {
+fs.readFile('app/routes/invitecard.html', { encoding: 'utf-8', }, function (err, html) {
     if (err) {
-      console.log(err);
+        //console.log(err);
     } else {
         maillist.forEach(function(to, i, array) {
-            var msg = {
-                from: "Team Fiesta",
-                subject: "Event Invite!",
+            let msg = {
+                from: 'Team Fiesta',
+                subject: 'Event Invite!',
+
                 //text: "Howdy!\nYou have been invited to an event. Open the card enclosed below to view the invite.\n\nCheers!\nTeam Fiesta",
-                html: html
+
+                html: html,
             }
             msg.to = to;
             transporter.sendMail(msg, function(error, info) {
@@ -421,6 +423,6 @@ fs.readFile('app/routes/invitecard.html', {encoding: 'utf-8'}, function (err, ht
             });
         });
     }
-  });
+});
 
 module.exports = userRoutes;
