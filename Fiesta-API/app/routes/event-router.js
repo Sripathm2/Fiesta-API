@@ -187,7 +187,7 @@ eventRoutes.post('/create', (req, res) => {
         pool.end();
 
         return res.send({
-            eventID: response.rows[0].id;
+            eventID: response.rows[0].id,
         });
     });
 });
