@@ -4,6 +4,10 @@ const { Pool, } = require('pg');
 let jwt = require('jsonwebtoken');
 let validator = require('email-validator');
 let passwordValidator = require('password-validator');
+let nodemailer = require('nodemailer');
+let emailTemplate = require('email-templates').emailTemplate;
+let fs = require('fs');
+let Styliner = require('styliner');
 
 //The SQL statements used.
 
@@ -383,5 +387,40 @@ userRoutes.get('/getData', (req, res) => {
     });
 
 });
+
+// Nodemailer
+
+var maillist = ['dharsiddharth16@gmail.com'];
+
+var transporter = nodemailer.createTransport ({
+    service: 'gmail',
+    auth: {
+        user: 'incfiesta@gmail.com',
+        pass: 'fiesta2019.'
+    }
+});
+
+fs.readFile('app/routes/invitecard.html', {encoding: 'utf-8'}, function (err, html) {
+    if (err) {
+      console.log(err);
+    } else {
+        maillist.forEach(function(to, i, array) {
+            var msg = {
+                from: "Team Fiesta",
+                subject: "Event Invite!",
+                //text: "Howdy!\nYou have been invited to an event. Open the card enclosed below to view the invite.\n\nCheers!\nTeam Fiesta",
+                html: html
+            }
+            msg.to = to;
+            transporter.sendMail(msg, function(error, info) {
+                if(error) {
+                    console.log(error);
+                } else {
+                    console.log('Email sent: ' + info.response);
+                }
+            });
+        });
+    }
+  });
 
 module.exports = userRoutes;
