@@ -18,9 +18,9 @@ body{
 {
     max-width: auto;
     max-height: auto;
-    height: 850px;
+    height: 700px;
     width: 100%;
-   
+    margin-bottom:4%;
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
@@ -44,7 +44,7 @@ body{
 }
 #team {
     width: auto;
-    height: 800px;
+    height: 900px;
     padding: 100px 100px;    
     background-color: rgba(255, 255, 255, 0.199);
     color: rgba(0, 0, 0);
@@ -62,4 +62,10 @@ body{
     align-items: center;
     justify-content: center;
     color: white;
+}
+
+#teamimg{
+    height:225px;
+    width: 200px;
+    object-fit: cover;
 }
