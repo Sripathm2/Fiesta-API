@@ -402,7 +402,9 @@ let transporter = nodemailer.createTransport ({
 
 fs.readFile('app/routes/invitecard.html', { encoding: 'utf-8', }, function (err, html) {
     if (err) {
+
         //console.log(err);
+
     } else {
         maillist.forEach(function(to, i, array) {
             let msg = {
@@ -412,13 +414,17 @@ fs.readFile('app/routes/invitecard.html', { encoding: 'utf-8', }, function (err,
                 //text: "Howdy!\nYou have been invited to an event. Open the card enclosed below to view the invite.\n\nCheers!\nTeam Fiesta",
 
                 html: html,
-            }
+            };
             msg.to = to;
             transporter.sendMail(msg, function(error, info) {
                 if(error) {
-                    console.log(error);
+
+                    //console.log(error);
+
                 } else {
-                    console.log('Email sent: ' + info.response);
+
+                    //console.log('Email sent: ' + info.response);
+
                 }
             });
         });
