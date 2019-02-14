@@ -1,5 +1,8 @@
 let express = require('express');
 const axios = require('axios');
+const { Pool, } = require('pg');
+const connectionString = process.env.DB_URL;
+const Insert_event = 'INSERT INTO Events (owner, date, location, partySupplier, caterer, guests) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id';
 
 // Instantiate router
 
@@ -11,7 +14,7 @@ let eventRoutes = express.Router();
  * @apiGroup event
  *
  * @apiQuery (body) {String} location name OR {String} location latitude,longitude.
- *                  {String} budget of the user.
+ *                      {String} budget of the user.
  *
  * @apiSuccess {String} up to 100 results.
  * @apiError (RequestFormatError) 422 For missing data or invalid location/lat,lon or budget.
@@ -89,3 +92,104 @@ eventRoutes.get('/event', (req, res) => {
             });
         });
 });
+
+/**
+ * @api {post} /create
+ * @apiName create
+ * @apiGroup event
+ *
+ * @apiParam (body) {String} userName of event owner.
+ *                      {String} date of event in format 'YYYY-MM-DD HH:mm:SS'
+ *                      {float[2]} array of floats containing longitude/latitude.
+ *                      {String} name of party supplier.
+ *                      {String} name of caterer.
+ *                      {String[]} array of guests invited.
+ *
+ * @apiParamExample {JSON} Request Body Example
+ *      {
+            userName: 'johndoe',
+            date: '2019-02-09 05:00:00',
+            location: [ 40.423540, -86.921740 ],
+            partySupplier: 'Party City',
+            caterer: 'Chipotle',
+            guests: [ 'Jane Doe', 'Scott Smith', 'George Washington' ]
+
+ * @apiSuccess {String} eventID.
+ * @apiError (RequestFormatError) 422 For missing parameter(s).
+ * @apiError (Internal Error) 500+ Internal Error.
+ */
+eventRoutes.post('/create', (req, res) => {
+    
+    if (!req.body.userName) {
+        return res.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include the owner userName.',
+        });
+    }
+    
+    if (!req.body.date) {
+        return res.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include the date.',
+        });
+    }
+    
+    if (!req.body.location) {
+        return res.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include the location.',
+        });
+    }
+    
+    if (!req.body.partySupplier) {
+        return res.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include the partySupplier.',
+        });
+    }
+    
+    if (!req.body.caterer) {
+        return res.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include the caterer.',
+        });
+    }
+    
+    if (!req.body.guests) {
+        return res.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include the guests.',
+        });
+    }
+    
+    let event = {};
+    event.owner = req.body.userName;
+    event.date = req.body.date;
+    event.location = req.body.location;
+    event.partySupplier = req.body.partySupplier;
+    event.caterer = req.body.caterer;
+    event.guests = req.body.guests;
+
+    const pool = new Pool({
+        connectionString: connectionString,
+    });
+
+    pool.query(Insert_event, [event.owner, event.date, event.location, event.partySupplier, event.caterer, event.guests, ],  (err, response) => {
+
+        if(err){
+            pool.end();
+            return res.send({
+                errorType: 'InternalError',
+                message: err,
+            });
+        }
+
+        pool.end();
+
+        return res.send({
+            eventID: response.rows[0].id;
+        });
+    });
+});
+
+module.exports = eventRoutes;
