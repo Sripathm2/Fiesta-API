@@ -64,7 +64,7 @@ function reset(){
     data.password = document.getElementById("password").value;
     data.repass = document.getElementById("repass").value;
 
-    let url='https://carnet-api.herokuapp.com/user/forgetPassword';
+    let url='https://fiesta.herokuapp.com/user/forgetPassword';
 
     axios({
         method: 'post',
@@ -89,7 +89,7 @@ function load(){
     let user;
     user = readCookie();
 
-    let url='https://carnet-api.herokuapp.com/user/forgetPassword?userName='+user;
+    let url='https://fiesta.herokuapp.com/user/forgetPassword?userName='+user;
 
     axios({
         method: 'get',

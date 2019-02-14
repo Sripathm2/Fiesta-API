@@ -22,13 +22,12 @@ function forgotPassword(){
     let userdata = {};
     userdata.userName = document.getElementById("username").value;
 
-    console.log("swdcwsd");
     if(userdata.userName.length < 6){
         alert('Please enter your username before proceeding for forgotPassword.');
         return;
     }
 
-    let url='https://carnet-api.herokuapp.com/user/forgetPassword?userName='+userdata.userName;
+    let url='https://fiesta.herokuapp.com/user/forgetPassword?userName='+userdata.userName;
 
     axios({
         method:'get',
@@ -49,7 +48,7 @@ function enter(){
     userdata.userName = document.getElementById("username").value;
     userdata.password = document.getElementById("password").value;
 
-    let url='https://carnet-api.herokuapp.com/auth/token?userName='+userdata.userName+'&password='+userdata.password;
+    let url='https://fiesta.herokuapp.com/auth/token?userName='+userdata.userName+'&password='+userdata.password;
 
     axios({
         method:'get',

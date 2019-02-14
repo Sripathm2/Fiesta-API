@@ -168,7 +168,7 @@ const Home = () => (
                         
                     </div>
                     <hr></hr>
-                    <button type="submit" className="btn btn-light">Submit</button>
+                    <button type="submit" className="btn btn-dark" onClick={enter}>Submit</button>
                 </form>
             </div>
 
@@ -182,4 +182,24 @@ const Home = () => (
     </div>
 );
 
+function enter() {
+    let data = {};
+    data.text = document.getElementById("exampleFormControlTextarea1").value;
+    
+    let url = 'https://fiesta.herokuapp.com/user/feedback';
+    
+    axios({
+        method: 'post',
+        url: url,
+        data: {
+            feedbackText: data.text
+        }
+    })
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
 export default Home;

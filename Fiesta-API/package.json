@@ -51,7 +51,10 @@
     "eslint-plugin-import": "^2.10.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.7.0",
-    "mocha": "^2.5.3"
+    "mocha": "^2.5.3", 
+    "nodemailer": "^5.1.1", 
+    "email-templates": "5.0.3",
+    "styliner": "1.0.4"
   },
   "apidoc": {
     "title": "Fiesta API Documentation",
