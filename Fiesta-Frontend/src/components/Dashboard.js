@@ -53,7 +53,6 @@ export default class Dashboard extends Component {
             </p>
             </div>
         </footer>
-            
              <section >
                 <Modal visible={this.state.visible} width="400" height="300" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                     <div id="popup">
@@ -72,7 +71,6 @@ export default class Dashboard extends Component {
                 </Modal>
             </section>
     </div>
-            
         );
     }
 }

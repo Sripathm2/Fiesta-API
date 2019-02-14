@@ -14,7 +14,6 @@ export default class event extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-    
     openModal() {
         this.setState({
             visible : true
@@ -34,10 +33,11 @@ export default class event extends React.Component {
             </li>
           ))
         return (
-    <div className="App"> 
+    <div className="App">
 
 
-        <nav id = "navevent" className="navbar fixed-top navbar-expand-lg navbar-light bg-light">            
+        <nav id = "navevent" className="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+      
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
@@ -76,7 +76,7 @@ export default class event extends React.Component {
 
             </ul>
         </nav>
-        
+
 
         <div id="eventinfo" className="d-flex align-items-center">
             <div className="container">
@@ -84,19 +84,19 @@ export default class event extends React.Component {
                 <h3>Event Info</h3>
                 <hr></hr>
                 <div class="row-10">
-    
+
                 <form>
 
                 <div class="form-group row">
                     <div class="col-sm-2">
                         <label for="exampleFormControlInput1">Event Title:</label>
                     </div>
-                    
+
                     <div class="col-sm-10">
                         <input type="" class="form-control" id="exampleFormControlInput1" ></input>
                     </div>
                 </div>
-               
+
                 <div class="form-group row">
                     <div class="col-sm-2">
                         <label for="exampleFormControlTextarea1">Event Description:</label>
@@ -107,7 +107,8 @@ export default class event extends React.Component {
                 </div>
 
                 <div class="form-group row">
-                    <div class="col-2">   
+                    <div class="col-2">
+
                         <label for="example-date-input" class="col-2 col-form-label">Date</label>
                     </div>
                     <div class="col-10">
@@ -116,7 +117,8 @@ export default class event extends React.Component {
                 </div>
 
                 <div class="form-group row">
-                    <div class="col-2">   
+                    <div class="col-2">
+
                         <label for="example-time-input" class="col-2 col-form-label">Time</label>
                     </div>
                     <div class="col-10">
@@ -128,20 +130,20 @@ export default class event extends React.Component {
                 </div>
             </div>
         </div>
-        
+
         <div id="eventvenue" className="d-flex align-items-center">
             <div className="container">
                 <div id="eventvenuenav"></div>
                 <h3>Event Venue</h3>
                 <hr></hr>
                 <div class="row-10">
-                
+
                 <h4>Need suggestions?</h4>
                 </div>
 
             </div>
         </div>
-   
+
         <div id="eventcatering" className="d-flex align-items-center">
             <div className="container">
                 <div id="eventcateringnav"></div>
@@ -153,9 +155,9 @@ export default class event extends React.Component {
 
             </div>
         </div>
-        
+
         <div id="eventinvites" className="d-flex align-items-center">
-            
+
             <div className="container">
                 <div id="eventinvitesnav"></div>
                 <h3>Event Invites</h3>
@@ -184,14 +186,14 @@ export default class event extends React.Component {
 
             </div>
         </div>
-        
+
         <div id="eventwishlist" className="d-flex align-items-center">
             <div className="container">
                 <div id="eventwishlistnav"></div>
                 <h3>Event Wishlist</h3>
                 <hr></hr>
                 <div class="row-10">
-    
+
                 </div>
 
             </div>
@@ -202,7 +204,7 @@ export default class event extends React.Component {
                 <h3>Event Tasklist</h3>
                 <hr></hr>
                 <div class="row-10">
-    
+
                 </div>
 
             </div>
@@ -215,9 +217,9 @@ export default class event extends React.Component {
             </p>
             </div>
         </footer>
-        
+
         </div>
-            
+
         );
     }
     handleClick(event){
@@ -244,7 +246,8 @@ export default class event extends React.Component {
       }
       removeTask(index, event) {
         const tasks = this.state.tasks
-        tasks.splice(index, 1)    
+        tasks.splice(index, 1)
+
         this.setState({tasks})
       }
 }
