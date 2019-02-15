@@ -263,11 +263,11 @@ eventRoutes.post('/update', (req, res) => {
             });
         }
 
-        event.date = req.body.date? req.body.date : response.rows[0].date;
-        event.location = req.body.location? req.body.location: response.rows[0].location;
-        event.partySupplier = req.body.partySupplier? req.body.partySupplier: response.rows[0].partySupplier;
-        event.caterer = req.body.caterer?  req.body.caterer: response.rows[0].caterer;
-        event.guests = req.body.guests? req.body.guests: response.rows[0].guests;
+        event.date = req.body.date ? req.body.date : response.rows[0].date;
+        event.location = req.body.location ? req.body.location : response.rows[0].location;
+        event.partySupplier = req.body.partySupplier ? req.body.partySupplier : response.rows[0].partySupplier;
+        event.caterer = req.body.caterer ?  req.body.caterer : response.rows[0].caterer;
+        event.guests = req.body.guests ? req.body.guests : response.rows[0].guests;
 
         const pool1 = new Pool({
             connectionString: connectionString,
