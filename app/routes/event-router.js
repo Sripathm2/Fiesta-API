@@ -1,6 +1,8 @@
 let express = require('express');
 const axios = require('axios');
 const { Pool, } = require('pg');
+let nodemailer = require('nodemailer');
+let fs = require('fs');
 const connectionString = process.env.DB_URL;
 const Insert_event = 'INSERT INTO Events (owner, date, location, partySupplier, caterer, guests) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id';
 
@@ -22,21 +24,21 @@ let eventRoutes = express.Router();
 **/
 
 eventRoutes.get('/event', (req, res) => {
-    
+
     if (!req.query.location && !req.query.latlon) {
         return res.status(422).send({
             errorType: 'RequestFormatError',
             message: 'Must include location or latitude,longitude.',
         });
     }
-    
+
     if (!req.query.budget) {
         return res.status(422).send({
             errorType: 'RequestFormatError',
             message: 'Must include budget.',
         });
     }
-    
+
     let coords = req.query.latlon.split(',');
     if (coords.length !== 2 || isNaN(coords[0]) || isNaN(coords[1])) {
         return res.status(422).send({
@@ -44,16 +46,16 @@ eventRoutes.get('/event', (req, res) => {
             message: 'Invalid latitude,longitude format.',
         });
     }
-    
+
     if (+coords[0] < -180 || +coords[0] > 180 || +coords[1] < -90 || +coords[1] > 90) {
         return res.status(422).send({
             errorType: 'RequestFormatError',
             message: 'Invalid values for latitude/longitude.',
         });
     }
-    
+
     const searchRadius = 50;
-    
+
     let url = 'https://eventup.com/api/v3/search/';
     if (req.query.location) {
         url = url + 'place/';
@@ -120,49 +122,49 @@ eventRoutes.get('/event', (req, res) => {
 **/
 
 eventRoutes.post('/create', (req, res) => {
-    
+
     if (!req.body.userName) {
         return res.status(422).send({
             errorType: 'RequestFormatError',
             message: 'Must include the owner userName.',
         });
     }
-    
+
     if (!req.body.date) {
         return res.status(422).send({
             errorType: 'RequestFormatError',
             message: 'Must include the date.',
         });
     }
-    
+
     if (!req.body.location) {
         return res.status(422).send({
             errorType: 'RequestFormatError',
             message: 'Must include the location.',
         });
     }
-    
+
     if (!req.body.partySupplier) {
         return res.status(422).send({
             errorType: 'RequestFormatError',
             message: 'Must include the partySupplier.',
         });
     }
-    
+
     if (!req.body.caterer) {
         return res.status(422).send({
             errorType: 'RequestFormatError',
             message: 'Must include the caterer.',
         });
     }
-    
+
     if (!req.body.guests) {
         return res.status(422).send({
             errorType: 'RequestFormatError',
             message: 'Must include the guests.',
         });
     }
-    
+
     let event = {};
     event.owner = req.body.userName;
     event.date = req.body.date;
@@ -193,4 +195,30 @@ eventRoutes.post('/create', (req, res) => {
     });
 });
 
+
+function nodemailerSender(maillist){
+
+    let transporter = nodemailer.createTransport ({
+        service: 'gmail',
+        auth: {
+            user: 'incfiesta@gmail.com',
+            pass: 'fiesta2019.',
+        },
+    });
+    fs.readFile('app/res/invitecard.html', { encoding: 'utf-8', }, function (err, html) {
+        if (!err) {
+            maillist.forEach(function(to, i, array) {
+                let msg = {
+                    from: 'Team Fiesta',
+                    subject: 'Event Invite!',
+                    text: "Howdy!\nYou have been invited to an event. Open the card enclosed below to view the invite.\n\nCheers!\nTeam Fiesta",
+                    html: html,
+                };
+                msg.to = to;
+                transporter.sendMail(msg, function(error, info) {
+                });
+            });
+        }
+    });
+}
 module.exports = eventRoutes;
