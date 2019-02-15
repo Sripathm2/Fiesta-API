@@ -195,7 +195,6 @@ eventRoutes.post('/create', (req, res) => {
     });
 });
 
-
 function nodemailerSender(maillist){
 
     let transporter = nodemailer.createTransport ({
@@ -211,7 +210,7 @@ function nodemailerSender(maillist){
                 let msg = {
                     from: 'Team Fiesta',
                     subject: 'Event Invite!',
-                    text: "Howdy!\nYou have been invited to an event. Open the card enclosed below to view the invite.\n\nCheers!\nTeam Fiesta",
+                    text: 'Howdy!\nYou have been invited to an event. Open the card enclosed below to view the invite.\n\nCheers!\nTeam Fiesta',
                     html: html,
                 };
                 msg.to = to;

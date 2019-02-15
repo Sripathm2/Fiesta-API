@@ -5,7 +5,6 @@ let jwt = require('jsonwebtoken');
 let validator = require('email-validator');
 let passwordValidator = require('password-validator');
 
-
 //The SQL statements used.
 
 const connectionString = process.env.DB_URL;
