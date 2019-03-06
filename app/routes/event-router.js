@@ -470,7 +470,7 @@ eventRoutes.post('/tasks_post', (req, res) => {
     }
 
     let event = {};
-    event.data = req.body.task;
+    event.task = req.body.task;
     event.id = req.body.id;
 
     const pool = new Pool({
