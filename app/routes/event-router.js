@@ -378,7 +378,6 @@ eventRoutes.post('/image_post', (req, res) => {
             message: 'sucess',
         });
 
-
     });
 });
 
