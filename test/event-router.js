@@ -52,7 +52,7 @@ describe('event-router', function() {
         it('it should succeed with correct fields ', done => {
 
             let postdata = {
-                task: '{atask}',
+                task: '{atask,second}',
                 id: 'ef0f5596-4049-11e9-b210-d663bd873d93',
             };
 
@@ -80,7 +80,7 @@ describe('event-router', function() {
                 .query(data)
                 .end((err, res) => {
                     res.should.have.status(200);
-                    res.body.data.should.be.eql('atask');
+                    res.body.data.tasks[1].should.be.eql('second');
                     done();
                 });
         });
