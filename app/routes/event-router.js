@@ -4,9 +4,9 @@ const { Pool, } = require('pg');
 let nodemailer = require('nodemailer');
 let fs = require('fs');
 const connectionString = process.env.DB_URL;
-const Insert_event = 'INSERT INTO Events (owner, date, location, partySupplier, caterer, guests) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id';
-const Update_event = 'Update Users Set date = $1, location = $2, partySupplier = $3, caterer = $4, guests = $5 Where owner = $6 AND id = $7';
-const postImages = 'Update Users Set data = $1 Where id = $2';
+const Insert_event = 'INSERT INTO Events (owner, date, location, partySupplier, caterer, guests, id) VALUES ($1, $2, $3, $4, $5, $6, $7)';
+const Update_event = 'Update Events Set date = $1, location = $2, partySupplier = $3, caterer = $4, guests = $5 Where owner = $6 AND id = $7';
+const postImages = 'Update Events Set data = $1 Where id = $2';
 const Select_event = 'Select * from Events where owner = $1 AND id = $2';
 
 // Instantiate router
