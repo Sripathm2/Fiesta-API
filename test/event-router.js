@@ -17,7 +17,7 @@ describe('event-router', function() {
             };
 
             chai.request(index)
-                .post('event/image_post')
+                .post('/event/image_post')
                 .send(postdata)
                 .end((err, res) => {
                     console.log(res);
