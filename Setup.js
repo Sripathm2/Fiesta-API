@@ -32,9 +32,9 @@ const designs = new Pool({
 const create_user_table = 'CREATE TABLE Users (userName VARCHAR(32) PRIMARY KEY, password text not null, email text not null, securityQuestion text not null, securityAnswer text not null, name text not null, notification text not null)';
 const insert_user = 'INSERT INTO Users (userName, password, email , securityQuestion, securityAnswer, name, notification) VALUES (\'testUsername\',\'$2b$10$PhtMAduAs2i0wI/Uvs6DIepGMjz2JjooKNoDZ1dbYMweuWHGbleQK\', \'test@test.com\', \'what my name?\', \'test answer\', \'test test\', \'  \')';
 const create_feedback_table = 'CREATE TABLE Feedback (feedbackText text)';
-const create_events_table = 'CREATE TABLE Events (id PRIMARY KEY, owner VARCHAR(32) not null, date TIMESTAMPTZ not null, location real[2] not null, partySupplier text not null, caterer text not null, guests text[], images text[])';
+const create_events_table = 'CREATE TABLE Events (id text PRIMARY KEY, owner VARCHAR(32) not null, date TIMESTAMPTZ not null, location real[2] not null, partySupplier text not null, caterer text not null, guests text[], images text[])';
 const create_designs_table = 'CREATE TABLE Designs (id integer PRIMARY KEY, designString text)';
-const insert_events1 = 'INSERT INTO Events (id, owner, date, location, partySupplier, caterer, guests) VALUES (\'ef0f5596-4049-11e9-b210-d663bd873d93\', \'owner1\',\'2019-03-04 20:21:32\',\'none\',\'none\',\'none\',\'none\')';
+const insert_events1 = 'INSERT INTO Events (id, owner, date, location, partySupplier, caterer, guests) VALUES(\'ef0f5596-4049-11e9-b210-d663bd873d93\', \'owner1\', \'2019-03-04 20:21:32\',\'{0,0}\',\'none\',\'none\',\'{none}\')';
 
 function create_user_table_function() {
     pool.query(create_user_table, (err, res) => {
