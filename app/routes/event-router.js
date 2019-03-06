@@ -346,6 +346,7 @@ eventRoutes.post('/image_post', (req, res) => {
             message: 'Must include the id.',
         });
     }
+    console.log('er');
 
     if (!req.body.data) {
         return res.status(422).send({
@@ -353,6 +354,7 @@ eventRoutes.post('/image_post', (req, res) => {
             message: 'Must include the data.',
         });
     }
+    console.log('ersdfv');
 
     let event = {};
     event.data = req.body.data;
