@@ -340,14 +340,12 @@ function nodemailerSender(maillist){
 
 eventRoutes.post('/image_post', (req, res) => {
 
-    console.log('sdasdasdas');
     if (!req.body.id) {
         return res.status(422).send({
             errorType: 'RequestFormatError',
             message: 'Must include the id.',
         });
     }
-    console.log('er');
 
     if (!req.body.data) {
         return res.status(422).send({
@@ -355,7 +353,6 @@ eventRoutes.post('/image_post', (req, res) => {
             message: 'Must include the data.',
         });
     }
-    console.log('ersdfv');
 
     let event = {};
     event.data = req.body.data;
@@ -368,9 +365,8 @@ eventRoutes.post('/image_post', (req, res) => {
     pool.query(postImages, [event.data, event.id, ],  (err, response) => {
 
         if(err){
-            console.log(err);
             pool.end();
-            return res.send({
+            return res.status(501).send({
                 errorType: 'InternalError',
                 message: err,
             });
