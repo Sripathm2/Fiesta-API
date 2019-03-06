@@ -28,7 +28,7 @@ app.use(bodyParser.json());
 // Base route to verify functionality
 
 app.get('/', function(req, res) {
-    res.send('All SET Fiesta');
+    res.send('All SET Fiesta.');
 });
 
 // Registration route
