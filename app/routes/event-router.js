@@ -365,6 +365,7 @@ eventRoutes.post('/image_post', (req, res) => {
     pool.query(postImages, [event.data, event.id, ],  (err, response) => {
 
         if(err){
+            console.log(err);
             pool.end();
             return res.send({
                 errorType: 'InternalError',
