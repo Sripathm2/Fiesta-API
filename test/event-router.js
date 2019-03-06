@@ -40,7 +40,7 @@ describe('event-router', function() {
                 .query(data)
                 .end((err, res) => {
                     res.should.have.status(200);
-                    res.body.data.should.be.eql(['heifuvhef']);
+                    res.body.data.images[0].should.be.eql('heifuvhef');
                     done();
                 });
         });
