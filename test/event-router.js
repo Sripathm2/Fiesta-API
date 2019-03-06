@@ -13,7 +13,7 @@ describe('event-router', function() {
 
             let postdata = {
                 data: '{heifuvhef}',
-                id: 'ef0f5596-4049-11e9-b210-d663bd873d93'
+                id: 'ef0f5596-4049-11e9-b210-d663bd873d93',
             };
 
             chai.request(index)
