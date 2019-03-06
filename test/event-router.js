@@ -47,4 +47,44 @@ describe('event-router', function() {
 
     });
 
+    describe('/POST posttasks', () => {
+
+        it('it should succeed with correct fields ', done => {
+
+            let postdata = {
+                tasks: '{atask,second}',
+                id: 'ef0f5596-4049-11e9-b210-d663bd873d93',
+            };
+
+            chai.request(index)
+                .post('/event/tasks_post')
+                .send(postdata)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    done();
+                });
+        });
+
+    });
+
+    describe('/get gettasks ', () => {
+
+        it('it should succeed with correct fields ', done => {
+
+            let data = {
+                id: 'ef0f5596-4049-11e9-b210-d663bd873d93',
+            };
+
+            chai.request(index)
+                .get('/event/tasks_get')
+                .query(data)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.data.tasks[0].should.be.eql('atask');
+                    done();
+                });
+        });
+
+    });
+
 });

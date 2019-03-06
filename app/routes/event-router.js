@@ -12,6 +12,7 @@ const Select_event = 'Select * from Events where owner = $1 AND id = $2';
 const getImages = 'Select images from Events where id = $1';
 const postTasks = 'Update Events Set tasks = $1 Where id = $2';
 const getTasks = 'Select tasks from Events where id = $1';
+
 // Instantiate router
 
 let eventRoutes = express.Router();
@@ -434,7 +435,6 @@ eventRoutes.get('/image_get', (req, res) => {
     });
 });
 
-
 /**
  * @api {post} /tasks_post
  * @apiName tasks_post
@@ -545,7 +545,5 @@ eventRoutes.get('/tasks_get', (req, res) => {
 
     });
 });
-
-
 
 module.exports = eventRoutes;
