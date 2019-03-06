@@ -12,7 +12,7 @@ describe('event-router', function() {
         it('it should succeed with correct fields ', done => {
 
             let postdata = {
-                data: 'heifuvhef',
+                data: '{heifuvhef}',
                 id: 'ef0f5596-4049-11e9-b210-d663bd873d93'
             };
 
