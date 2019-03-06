@@ -39,13 +39,11 @@ describe('event-router', function() {
                 .get('/event/image_get')
                 .query(data)
                 .end((err, res) => {
-                    console.log(res);
                     res.should.have.status(200);
                     done();
                 });
         });
 
     });
-
 
 });
