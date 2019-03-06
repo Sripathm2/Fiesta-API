@@ -36,7 +36,7 @@ describe('event-router', function() {
             };
 
             chai.request(index)
-                .post('/event/image_get')
+                .get('/event/image_get')
                 .query(data)
                 .end((err, res) => {
                     console.log(res);
