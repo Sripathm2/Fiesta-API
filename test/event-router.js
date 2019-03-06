@@ -17,7 +17,7 @@ describe('event-router', function() {
             };
 
             chai.request(index)
-                .post('/image_post')
+                .post('event/image_post')
                 .send(feedback)
                 .end((err, res) => {
                     res.should.have.status(200);
