@@ -6,6 +6,7 @@ let cors = require('cors');
 
 let userRoutes = require('./app/routes/user-router');
 let authRoutes = require('./app/routes/auth-router');
+let eventRoutes = require('./app/routes/event-router');
 let feedbackRoutes = require('./app/routes/feedback-router');
 let Versioning = require('express-routes-versioning');
 
@@ -38,6 +39,10 @@ app.use('/user', routesVersioning({
 
 app.use('/auth', routesVersioning({
     '1.0.0': authRoutes,
+}));
+
+app.use('/event', routesVersioning({
+    '1.0.0': eventRoutes,
 }));
 
 app.use('/feedback', routesVersioning({

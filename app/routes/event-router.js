@@ -6,6 +6,7 @@ let fs = require('fs');
 const connectionString = process.env.DB_URL;
 const Insert_event = 'INSERT INTO Events (owner, date, location, partySupplier, caterer, guests) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id';
 const Update_event = 'Update Users Set date = $1, location = $2, partySupplier = $3, caterer = $4, guests = $5 Where owner = $6 AND id = $7';
+const postImages = 'Update Users Set data = $1 Where id = $2';
 const Select_event = 'Select * from Events where owner = $1 AND id = $2';
 
 // Instantiate router
@@ -318,4 +319,65 @@ function nodemailerSender(maillist){
         }
     });
 }
+
+/**
+ * @api {post} /image_post
+ * @apiName image_post
+ * @apiGroup event
+ *
+ * @apiParam (body) {String} data of the images encoded 64.
+                    {String} id of the event
+ *
+ * @apiParamExample {JSON} Request Body Example
+ *      {
+            data: 'oaisduhfhugiouhedrgiergiuoher',
+            id: 'jhbbgdciuwdc'
+        }
+ * @apiSuccess {String} message: success.
+ * @apiError (RequestFormatError) 422 For missing parameter(s).
+ * @apiError (Internal Error) 500+ Internal Error.
+**/
+
+eventRoutes.post('/image_post', (req, res) => {
+
+    if (!req.body.id) {
+        return res.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include the id.',
+        });
+    }
+
+    if (!req.body.data) {
+        return res.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include the data.',
+        });
+    }
+
+    let event = {};
+    event.data = req.body.data;
+    event.id = req.body.id;
+
+    const pool = new Pool({
+        connectionString: connectionString,
+    });
+
+    pool.query(postImages, [event.data, event.id, ],  (err, response) => {
+
+        if(err){
+            pool.end();
+            return res.send({
+                errorType: 'InternalError',
+                message: err,
+            });
+        }
+
+        return res.send({
+            message: 'sucess',
+        });
+
+        pool.end();
+    });
+});
+
 module.exports = eventRoutes;
