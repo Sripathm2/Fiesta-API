@@ -39,7 +39,7 @@ describe('event-router', function() {
                 .post('/event/image_get')
                 .query(data)
                 .end((err, res) => {
-                    console.log(res.data);
+                    console.log(res);
                     res.should.have.status(200);
                     done();
                 });
