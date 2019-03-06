@@ -10,7 +10,8 @@ const Update_event = 'Update Events Set date = $1, location = $2, partySupplier 
 const postImages = 'Update Events Set images = $1 Where id = $2';
 const Select_event = 'Select * from Events where owner = $1 AND id = $2';
 const getImages = 'Select images from Events where id = $1';
-
+const postTasks = 'Update Events Set tasks = $1 Where id = $2';
+const getTasks = 'Select tasks from Events where id = $1';
 // Instantiate router
 
 let eventRoutes = express.Router();
@@ -432,5 +433,119 @@ eventRoutes.get('/image_get', (req, res) => {
 
     });
 });
+
+
+/**
+ * @api {post} /tasks_post
+ * @apiName tasks_post
+ * @apiGroup event
+ *
+ * @apiParam (body) {String} tasks of the event.
+                    {String} id of the event
+ *
+ * @apiParamExample {JSON} Request Body Example
+ *      {
+            task: '{oaisduhfhugiouhedrgiergiuoher}',
+            id: 'jhbbgdciuwdc'
+        }
+ * @apiSuccess {String} message: success.
+ * @apiError (RequestFormatError) 422 For missing parameter(s).
+ * @apiError (Internal Error) 500+ Internal Error.
+**/
+
+eventRoutes.post('/tasks_post', (req, res) => {
+
+    if (!req.body.id) {
+        return res.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include the id.',
+        });
+    }
+
+    if (!req.body.task) {
+        return res.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include the data.',
+        });
+    }
+
+    let event = {};
+    event.data = req.body.task;
+    event.id = req.body.id;
+
+    const pool = new Pool({
+        connectionString: connectionString,
+    });
+
+    pool.query(postTasks, [event.task, event.id, ],  (err, response) => {
+
+        if(err){
+            pool.end();
+            return res.status(501).send({
+                errorType: 'InternalError',
+                message: err,
+            });
+        }
+
+        pool.end();
+        return res.send({
+            message: 'sucess',
+        });
+
+    });
+});
+
+/**
+ * @api {get} /tasks_get
+ * @apiName task_get
+ * @apiGroup event
+ *
+ * @apiParam (query) {String} id of the event
+ *
+ * @apiParamExample {JSON} Request query Example
+ *      {
+            id: 'jhbbgdciuwdc'
+        }
+ * @apiSuccess {String} image data.
+ * @apiError (RequestFormatError) 422 For missing parameter(s).
+ * @apiError (Internal Error) 500+ Internal Error.
+**/
+
+eventRoutes.get('/tasks_get', (req, res) => {
+
+    if (!req.query.id) {
+        return res.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include the id.',
+        });
+    }
+
+    let event = {};
+    event.id = req.query.id;
+
+    const pool = new Pool({
+        connectionString: connectionString,
+    });
+
+    pool.query(getTasks, [event.id, ],  (err, response) => {
+
+        if(err){
+            pool.end();
+            return res.status(501).send({
+                errorType: 'InternalError',
+                message: err,
+            });
+        }
+
+        pool.end();
+        return res.send({
+            message: 'sucess',
+            data: response.rows[0],
+        });
+
+    });
+});
+
+
 
 module.exports = eventRoutes;
