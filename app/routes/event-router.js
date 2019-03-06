@@ -427,7 +427,7 @@ eventRoutes.get('/image_get', (req, res) => {
         pool.end();
         return res.send({
             message: 'sucess',
-            data: 'response'
+            data: response.rows[0]
         });
 
     });
