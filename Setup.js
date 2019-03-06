@@ -56,8 +56,8 @@ function create_feedback_table_function() {
 function create_events_table_function() {
     events.query(create_events_table, (err, res) => {
         events.end();
-        events1.query(insert_events1, (err, res) => {
-            events1.end();
+        event1.query(insert_events1, (err, res) => {
+            event1.end();
         });
     });
 }
