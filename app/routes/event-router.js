@@ -340,6 +340,7 @@ function nodemailerSender(maillist){
 
 eventRoutes.post('/image_post', (req, res) => {
 
+    console.log('sdasdasdas');
     if (!req.body.id) {
         return res.status(422).send({
             errorType: 'RequestFormatError',
