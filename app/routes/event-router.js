@@ -181,7 +181,7 @@ eventRoutes.post('/create', (req, res) => {
         connectionString: connectionString,
     });
 
-    pool.query(Insert_event, [event.owner, event.date, event.location, event.partySupplier, event.caterer, event.guests, uuidv1() ],  (err, response) => {
+    pool.query(Insert_event, [event.owner, event.date, event.location, event.partySupplier, event.caterer, event.guests, uuidv1(),  ],  (err, response) => {
 
         if(err){
             pool.end();
@@ -373,11 +373,12 @@ eventRoutes.post('/image_post', (req, res) => {
             });
         }
 
+        pool.end();
         return res.send({
             message: 'sucess',
         });
 
-        pool.end();
+
     });
 });
 

@@ -20,7 +20,6 @@ describe('event-router', function() {
                 .post('/event/image_post')
                 .send(postdata)
                 .end((err, res) => {
-                    console.log(res);
                     res.should.have.status(200);
                     done();
                 });
