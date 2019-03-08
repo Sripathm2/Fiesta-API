@@ -42,7 +42,7 @@ describe('event-router', function() {
     describe('/POST answer', () => {
     
         let allFields = {
-            answerUserName: 'iamsdhar',
+            answerUsername: 'iamsdhar',
             answer: 'taabood ghusa lunga',
         };
     
