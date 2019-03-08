@@ -3,14 +3,312 @@ const axios = require('axios');
 const { Pool, } = require('pg');
 let nodemailer = require('nodemailer');
 let fs = require('fs');
+const uuidv1 = require('uuid/v1');
 const connectionString = process.env.DB_URL;
 const Insert_event = 'INSERT INTO Events (owner, date, location, partySupplier, caterer, guests) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id';
 const Update_event = 'Update Users Set date = $1, location = $2, partySupplier = $3, caterer = $4, guests = $5 Where owner = $6 AND id = $7';
 const Select_event = 'Select * from Events where owner = $1 AND id = $2';
+const Insert_wishlist_item = 'INSERT INTO wishlist (userName, item) VALUES($1,$2)';
+const Delete_wishlist_item = 'DELETE FROM wishlist WHERE id=($1)';
+const Insert_question_answer = 'INSERT INTO Questionanswer(event_id, questionUserName, question, questionID, answerUsername, answer) VALUES($1,$2,$3,$4,$5,$6)';
+const Select_question = 'SELECT * FROM questionanswer WHERE questionUserName=($1) AND answerUserName=($2)';
+const Select_answer = 'SELECT * FROM questionanswer WHERE questionUserName=($1) AND answerUserName=($2)';
+const Select_wishlist = 'SELECT * FROM wishlist WHERE userName=($1)';
 
 // Instantiate router
 
 let eventRoutes = express.Router();
+
+// Selects Questions
+
+eventRoutes.get('/selectQuestion', (request ,response) => {
+    if (!request.body.event_id) {
+        return response.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include the event_id.',
+        });
+    }
+    
+    if (!request.body.questionUserName) {
+        return response.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include a questionUserName.',
+        });
+    }
+
+    if (!request.body.question) {
+        return response.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include a question.',
+        });
+    }
+
+    if (!request.body.questionID) {
+        return response.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include a questionID.',
+        });
+    }
+
+    if (!request.body.answerUsername) {
+        return response.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include the answerUserName.',
+        });
+    }
+    
+    if (!request.body.answer) {
+        return response.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include an answer.',
+        });
+    }
+
+    const pool = new Pool({
+        connectionString: connectionString,
+    });
+    
+    const{questionUserName, answerUserName} = request.body;
+
+    pool.query(Select_question,[questionUserName, answerUserName],(err,res) => {
+        if(err) {
+            pool.end();
+            return res.send({
+                errorType: 'InternalError',
+                message: err
+            });
+        }
+        pool.end();
+    });
+});
+
+// Selects answers
+
+eventRoutes.get('/selectAnswer', (request ,response) => {
+    
+
+    if (!request.body.answerUsername) {
+        return response.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include the answerUserName.',
+        });
+    }
+    
+    if (!request.body.answer) {
+        return response.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include an answer.',
+        });
+    }
+
+    const pool = new Pool({
+        connectionString: connectionString,
+    });
+    
+    const{questionUserName,answerUserName} = request.body;
+
+    pool.query(Select_answer,[questionUserName,answerUserName],(err,res) => {
+        if(err) {
+            pool.end();
+            return res.send({
+                errorType: 'InternalError',
+                message: err
+            });
+        }
+        pool.end();
+    });
+});
+
+// This function permits users to post questions. --------------------------
+
+eventRoutes.post('/question', (request ,response) => {
+    if (!request.body.event_id) {
+        return response.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include the event_id.',
+        });
+    }
+    
+    if (!request.body.questionUserName) {
+        return response.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include a questionUserName.',
+        });
+    }
+
+    if (!request.body.question) {
+        return response.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include a question.',
+        });
+    }
+
+    if (!request.body.questionID) {
+        return response.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include a questionID.',
+        });
+    }
+
+    const pool = new Pool({
+        connectionString: connectionString,
+    });
+    
+    const {event_id,questionUserName, question} = request.body;
+    pool.query(Insert_question_answer,[event_id, questionUserName, question, uuidv1(), null, null],(err,res) => {
+        if(err) {
+            pool.end();
+            return res.send({
+                errorType: 'InternalError',
+                message: err
+            });
+        }
+        pool.end();
+    });
+});
+
+// The function permits users to answer to questions.
+
+eventRoutes.post('/answer', (request ,response) => {
+    if (!request.body.answerUsername) {
+        return response.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include the answerUserName.',
+        });
+    }
+    
+    if (!request.body.answer) {
+        return response.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include an answer.',
+        });
+    }
+
+    const pool = new Pool({
+        connectionString: connectionString,
+    });
+    
+    const {event_id, answerUsername, answer } = request.body;
+    pool.query(Insert_question_answer,[event_id, null, null, uuidv1(), answerUsername, answer],(err,res) => {
+        if(err) {
+            pool.end();
+            return res.send({
+                errorType: 'InternalError',
+                message: err
+            });
+        }
+        pool.end();
+    });
+});
+
+//This function is used to select from Wishlist
+
+eventRoutes.get('/selectWishlist', (request ,response) => {
+    if (!request.body.userName) {
+            return response.status(422).send({
+                errorType: 'RequestFormatError',
+                message: 'Must include the owner userName.',
+            });
+        }
+        
+        if (!request.body.item) {
+            return response.status(422).send({
+                errorType: 'RequestFormatError',
+                message: 'Must include an item name for the wishlist.',
+            });
+        }
+        const pool = new Pool({
+            connectionString: connectionString,
+        });
+        
+        const {userName} = request.body;
+        pool.query(Select_wishlist,[userName],(err,res) => {
+            if(err) {
+                pool.end();
+                return res.send({
+                    errorType: 'InternalError',
+                    message: err
+                });
+            }
+            pool.end();
+    
+            return res.send({
+                eventID: response.rows[0].id,
+            });
+        });
+    });
+    
+
+// This function inserts an item into a wishlist
+
+eventRoutes.put('/createWishlist', (request ,response) => {
+if (!request.body.userName) {
+        return response.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include the owner userName.',
+        });
+    }
+    
+    if (!request.body.item) {
+        return response.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include an item name for the wishlist.',
+        });
+    }
+    const pool = new Pool({
+        connectionString: connectionString,
+    });
+    
+    const {userName, item} = request.body;
+    pool.query(Insert_wishlist_item,[userName,item],(err,res) => {
+        if(err) {
+            pool.end();
+            return res.send({
+                errorType: 'InternalError',
+                message: err
+            });
+        }
+        pool.end();
+
+        return res.send({
+            eventID: response.rows[0].id,
+        });
+    });
+});
+
+// This function deletes an item from a wishlist
+
+eventRoutes.delete('/deleteWishlist/:id', (request, response) => {
+    if (!request.body.userName) {
+        return response.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include the owner userName.',
+        });
+    }
+    
+    if (!request.body.item) {
+        return response.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include an item name for the wishlist.',
+        });
+    }
+    const pool = new Pool({
+        connectionString: connectionString,
+    });
+
+    const{id} = request.body;
+
+    pool.query(Delete_wishlist_item, [id], (err,res) => {
+        if(err) {
+            pool.end();
+            return res.send({
+                errorType: 'InternalError',
+                message: err
+            });
+        }
+        pool.end();
+    });
+});
 
 /**
  * @api {get} /event
