@@ -1,7 +1,7 @@
 let express = require('express');
 const { Pool, } = require('pg');
 const connectionString = process.env.DB_URL;
-const Insert_designs = 'INSERT INTO Designs (eventID, designString) VALUES ($1, $2)';
+const Insert_designs = 'INSERT INTO Designs (id, designString) VALUES ($1, $2)';
 
 // Instantiate router
 
