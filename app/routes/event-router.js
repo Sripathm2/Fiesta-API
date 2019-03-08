@@ -47,7 +47,7 @@ eventRoutes.get('/event', (req, res) => {
     let url = 'https://eventup.com/api/v3/search/';
     if (req.query.location) {
         url = url + 'place/';
-    } else {            
+    } else {
         let coords = req.query.latlon.split(',');
         if (coords.length !== 2 || isNaN(coords[0]) || isNaN(coords[1])) {
             return res.status(422).send({
@@ -356,7 +356,7 @@ eventRoutes.post('/rsvp', (req, res) => {
     }
     
     if (req.body.status.toUpperCase() !== 'YES' && req.body.status.toUpperCase() !== 'NO') {
-         return res.status(422).send({
+        return res.status(422).send({
             errorType: 'RequestFormatError',
             message: 'Must include valid rsvp status.',
         });
@@ -386,7 +386,7 @@ eventRoutes.post('/rsvp', (req, res) => {
         return res.send({
             message: 'success',
         });
-    });    
+    });
 });
 
 /**

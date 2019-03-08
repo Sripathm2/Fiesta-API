@@ -36,7 +36,7 @@ describe('event-router', function() {
                 .get('/event/event')
                 .query(data)
                 .end((err, res) => {
-                    res.should.have.status(422);                                                        
+                    res.should.have.status(422);
                     done();
                 });
         });
@@ -69,7 +69,7 @@ describe('event-router', function() {
                 .get('/event/event')
                 .query(data)
                 .end((err, res) => {
-                    res.should.have.status(422);                                                        
+                    res.should.have.status(422);
                     done();
                 });
         });
@@ -85,7 +85,7 @@ describe('event-router', function() {
                 .get('/event/event')
                 .query(data)
                 .end((err, res) => {
-                    res.should.have.status(422);                                                        
+                    res.should.have.status(422);
                     done();
                 });
         });
@@ -99,10 +99,10 @@ describe('event-router', function() {
             let postdata = {
                 userName: 'johndoe',
                 date: '2019-02-09 05:00:00',
-                location: [ 40.423540, -86.921740 ],
+                location: [ 40.423540, -86.921740, ],
                 partySupplier: 'Party City',
                 caterer: 'Chipotle',
-                guests: [ 'Jane Doe', 'Scott Smith', 'George Washington' ],
+                guests: [ 'Jane Doe', 'Scott Smith', 'George Washington', ],
             };
             
             chai.request(index)
@@ -119,10 +119,10 @@ describe('event-router', function() {
             
             let postdata = {
                 date: '2019-02-09 05:00:00',
-                location: [ 40.423540, -86.921740 ],
+                location: [ 40.423540, -86.921740, ],
                 partySupplier: 'Party City',
                 caterer: 'Chipotle',
-                guests: [ 'Jane Doe', 'Scott Smith', 'George Washington' ],
+                guests: [ 'Jane Doe', 'Scott Smith', 'George Washington', ],
             };
             
             chai.request(index)
@@ -138,10 +138,10 @@ describe('event-router', function() {
             
             let postdata = {
                 userName: 'johndoe',
-                location: [ 40.423540, -86.921740 ],
+                location: [ 40.423540, -86.921740, ],
                 partySupplier: 'Party City',
                 caterer: 'Chipotle',
-                guests: [ 'Jane Doe', 'Scott Smith', 'George Washington' ],
+                guests: [ 'Jane Doe', 'Scott Smith', 'George Washington', ],
             };
             
             chai.request(index)
@@ -160,7 +160,7 @@ describe('event-router', function() {
                 date: '2019-02-09 05:00:00',
                 partySupplier: 'Party City',
                 caterer: 'Chipotle',
-                guests: [ 'Jane Doe', 'Scott Smith', 'George Washington' ],
+                guests: [ 'Jane Doe', 'Scott Smith', 'George Washington', ],
             };
             
             chai.request(index)
@@ -177,9 +177,9 @@ describe('event-router', function() {
             let postdata = {
                 userName: 'johndoe',
                 date: '2019-02-09 05:00:00',
-                location: [ 40.423540, -86.921740 ],
+                location: [ 40.423540, -86.921740, ],
                 caterer: 'Chipotle',
-                guests: [ 'Jane Doe', 'Scott Smith', 'George Washington' ],
+                guests: [ 'Jane Doe', 'Scott Smith', 'George Washington', ],
             };
             
             chai.request(index)
@@ -196,9 +196,9 @@ describe('event-router', function() {
             let postdata = {
                 userName: 'johndoe',
                 date: '2019-02-09 05:00:00',
-                location: [ 40.423540, -86.921740 ],
+                location: [ 40.423540, -86.921740, ],
                 partySupplier: 'Party City',
-                guests: [ 'Jane Doe', 'Scott Smith', 'George Washington' ],
+                guests: [ 'Jane Doe', 'Scott Smith', 'George Washington', ],
             };
             
             chai.request(index)
@@ -215,7 +215,7 @@ describe('event-router', function() {
             let postdata = {
                 userName: 'johndoe',
                 date: '2019-02-09 05:00:00',
-                location: [ 40.423540, -86.921740 ],
+                location: [ 40.423540, -86.921740, ],
                 partySupplier: 'Party City',
                 caterer: 'Chipotle',
             };
