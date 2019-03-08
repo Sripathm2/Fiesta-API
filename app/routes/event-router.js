@@ -11,8 +11,8 @@ const Select_event = 'Select * from Events where owner = $1 AND id = $2';
 const Insert_wishlist_item = 'INSERT INTO wishlist (userName, item) VALUES($1,$2)';
 const Delete_wishlist_item = 'DELETE FROM wishlist WHERE id=($1)';
 const Insert_question_answer = 'INSERT INTO Questionanswer(event_id, questionUserName, question, questionID, answerUsername, answer) VALUES($1,$2,$3,$4,$5,$6)';
-const Select_question = 'SELECT * FROM questionanswer WHERE questionUserName=($1) AND answerUserName=($2)';
-const Select_answer = 'SELECT * FROM questionanswer WHERE questionUserName=($1) AND answerUserName=($2)';
+const Select_question = 'SELECT * FROM questionanswer WHERE questionUserName=($1) AND answerUsername=($2)';
+const Select_answer = 'SELECT * FROM questionanswer WHERE questionUserName=($1) AND answerUsername=($2)';
 const Select_wishlist = 'SELECT * FROM wishlist WHERE userName=($1)';
 
 // Instantiate router
@@ -53,7 +53,7 @@ eventRoutes.get('/selectQuestion', (request ,response) => {
     if (!request.body.answerUsername) {
         return response.status(422).send({
             errorType: 'RequestFormatError',
-            message: 'Must include the answerUserName.',
+            message: 'Must include the answerUsername.',
         });
     }
     
@@ -68,9 +68,9 @@ eventRoutes.get('/selectQuestion', (request ,response) => {
         connectionString: connectionString,
     });
     
-    const{questionUserName, answerUserName} = request.body;
+    const{questionUserName, answerUsername} = request.body;
 
-    pool.query(Select_question,[questionUserName, answerUserName],(err,res) => {
+    pool.query(Select_question,[questionUserName, answerUsername],(err,res) => {
         if(err) {
             pool.end();
             return res.send({
@@ -90,7 +90,7 @@ eventRoutes.get('/selectAnswer', (request ,response) => {
     if (!request.body.answerUsername) {
         return response.status(422).send({
             errorType: 'RequestFormatError',
-            message: 'Must include the answerUserName.',
+            message: 'Must include the answerUsername.',
         });
     }
     
@@ -105,9 +105,9 @@ eventRoutes.get('/selectAnswer', (request ,response) => {
         connectionString: connectionString,
     });
     
-    const{questionUserName,answerUserName} = request.body;
+    const{questionUserName,answerUsername} = request.body;
 
-    pool.query(Select_answer,[questionUserName,answerUserName],(err,res) => {
+    pool.query(Select_answer,[questionUserName,answerUsername],(err,res) => {
         if(err) {
             pool.end();
             return res.send({
@@ -173,7 +173,7 @@ eventRoutes.post('/answer', (request ,response) => {
     if (!request.body.answerUsername) {
         return response.status(422).send({
             errorType: 'RequestFormatError',
-            message: 'Must include the answerUserName.',
+            message: 'Must include the answerUsername.',
         });
     }
     
