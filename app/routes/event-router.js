@@ -250,7 +250,7 @@ eventRoutes.get('/selectWishlist', (request ,response) => {
             pool.end();
 
             return response.send({
-                eventID: res1.rows[0].id,
+                eventID: res1.rows[0],
             });
         });
     });
