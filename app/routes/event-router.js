@@ -171,7 +171,7 @@ eventRoutes.post('/question', (request ,response) => {
             });
         }
         pool.end();
-        return res.send({
+        return response.send({
                 message: 'sucess',
         });
     });
