@@ -29,42 +29,42 @@ let eventRoutes = express.Router();
 // Selects Questions
 
 eventRoutes.get('/selectQuestion', (request ,response) => {
-    if (!request.body.event_id) {
+    if (!request.query.event_id) {
         return response.status(422).send({
             errorType: 'RequestFormatError',
             message: 'Must include the event_id.',
         });
     }
 
-    if (!request.body.questionUserName) {
+    if (!request.query.questionUserName) {
         return response.status(422).send({
             errorType: 'RequestFormatError',
             message: 'Must include a questionUserName.',
         });
     }
 
-    if (!request.body.question) {
+    if (!request.query.question) {
         return response.status(422).send({
             errorType: 'RequestFormatError',
             message: 'Must include a question.',
         });
     }
 
-    if (!request.body.questionID) {
+    if (!request.query.questionID) {
         return response.status(422).send({
             errorType: 'RequestFormatError',
             message: 'Must include a questionID.',
         });
     }
 
-    if (!request.body.answerUsername) {
+    if (!request.query.answerUsername) {
         return response.status(422).send({
             errorType: 'RequestFormatError',
             message: 'Must include the answerUsername.',
         });
     }
 
-    if (!request.body.answer) {
+    if (!request.query.answer) {
         return response.status(422).send({
             errorType: 'RequestFormatError',
             message: 'Must include an answer.',
@@ -75,7 +75,7 @@ eventRoutes.get('/selectQuestion', (request ,response) => {
         connectionString: connectionString,
     });
 
-    const{questionUserName, answerUsername} = request.body;
+    const{questionUserName, answerUsername} = request.query;
 
     pool.query(Select_question,[questionUserName, answerUsername],(err,res) => {
         if(err) {
