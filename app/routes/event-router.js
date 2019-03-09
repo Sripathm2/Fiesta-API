@@ -171,6 +171,9 @@ eventRoutes.post('/question', (request ,response) => {
             });
         }
         pool.end();
+        return res.send({
+                message: 'sucess',
+        });
     });
 });
 
@@ -205,6 +208,9 @@ eventRoutes.post('/answer', (request ,response) => {
             });
         }
         pool.end();
+        return res.send({
+                message: 'sucess',
+        });
     });
 });
 
