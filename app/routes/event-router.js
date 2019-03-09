@@ -32,7 +32,7 @@ eventRoutes.get('/selectQuestion', (request ,response) => {
     if (!request.query.event_id) {
         return response.status(422).send({
             errorType: 'RequestFormatError',
-            message: 'Must include the event_id.',
+            message: 'Must include an event_id.',
         });
     }
 
@@ -80,11 +80,15 @@ eventRoutes.get('/selectQuestion', (request ,response) => {
     pool.query(Select_question,[questionUserName, answerUsername],(err,res) => {
         if(err) {
             pool.end();
-            return res.send({
+            return response.send({
                 errorType: 'InternalError',
                 message: err
             });
         }
+        return response.send({
+                message: 'Success',
+                data: res.rows,
+        });
         pool.end();
     });
 });
