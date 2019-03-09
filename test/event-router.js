@@ -170,7 +170,7 @@ describe('event-router', function() {
                 .end((err, res) => {
                     res.should.have.status(422);
                     res.body.errorType.should.be.eql('RequestFormatError');
-                    res.body.message.should.be.eql('Must include the item.');
+                    res.body.message.should.be.eql('Must include an item name for the wishlist.');
                     done();
                 });
         });
@@ -401,7 +401,7 @@ describe('event-router', function() {
 
     });
 
-    describe('/POST update', () => {
+    describe('/POST answer', () => {
 
         it('it should succeed with correct fields', done => {
 

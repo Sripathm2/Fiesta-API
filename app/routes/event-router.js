@@ -94,14 +94,14 @@ eventRoutes.get('/selectQuestion', (request ,response) => {
 eventRoutes.get('/selectAnswer', (request ,response) => {
 
 
-    if (!request.body.answerUsername) {
+    if (!request.query.answerUsername) {
         return response.status(422).send({
             errorType: 'RequestFormatError',
             message: 'Must include the answerUsername.',
         });
     }
 
-    if (!request.body.answer) {
+    if (!request.query.answer) {
         return response.status(422).send({
             errorType: 'RequestFormatError',
             message: 'Must include an answer.',
@@ -112,7 +112,7 @@ eventRoutes.get('/selectAnswer', (request ,response) => {
         connectionString: connectionString,
     });
 
-    const{questionUserName,answerUsername} = request.body;
+    const{questionUserName,answerUsername} = request.query;
 
     pool.query(Select_answer,[questionUserName,answerUsername],(err,res) => {
         if(err) {
@@ -172,7 +172,7 @@ eventRoutes.post('/question', (request ,response) => {
         }
         pool.end();
         return response.send({
-                message: 'sucess',
+                message: 'Sucess',
         });
     });
 });
@@ -209,7 +209,7 @@ eventRoutes.post('/answer', (request ,response) => {
         }
         pool.end();
         return response.send({
-                message: 'sucess',
+                message: 'Sucess',
         });
     });
 });
