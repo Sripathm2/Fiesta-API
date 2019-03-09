@@ -440,7 +440,7 @@ describe('event-router', function() {
                 .end((err, res) => {
                     res.should.have.status(422);
                     res.body.errorType.should.be.eql('RequestFormatError');
-                    res.body.message.should.be.eql('Must include the answer.');
+                    res.body.message.should.be.eql('Must include an answer.');
                     done();
                 });
         });
@@ -547,7 +547,7 @@ describe('event-router', function() {
                 .end((err, res) => {
                     res.should.have.status(422);
                     res.body.errorType.should.be.eql('RequestFormatError');
-                    res.body.message.should.be.eql('Must include the answer.');
+                    res.body.message.should.be.eql('Must include an answer.');
                     done();
                 });
         });
