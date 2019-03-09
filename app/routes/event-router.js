@@ -239,7 +239,7 @@ eventRoutes.get('/selectWishlist', (request ,response) => {
         });
 
         const {userName} = request.query;
-        pool.query(Select_wishlist,[userName],(err,res) => {
+        pool.query(Select_wishlist,[userName],(err,res1) => {
             if(err) {
                 pool.end();
                 return res.send({
@@ -249,8 +249,8 @@ eventRoutes.get('/selectWishlist', (request ,response) => {
             }
             pool.end();
 
-            return res.send({
-                eventID: response.rows[0].id,
+            return response.send({
+                eventID: res1.rows[0].id,
             });
         });
     });
