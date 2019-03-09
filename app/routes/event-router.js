@@ -172,7 +172,7 @@ eventRoutes.post('/question', (request ,response) => {
         }
         pool.end();
         return response.send({
-                message: 'Sucess',
+                message: 'Success',
         });
     });
 });
@@ -209,7 +209,7 @@ eventRoutes.post('/answer', (request ,response) => {
         }
         pool.end();
         return response.send({
-                message: 'Sucess',
+                message: 'Success',
         });
     });
 });
