@@ -649,6 +649,7 @@ describe('event-router', function() {
                     res.should.have.status(422);
                     res.body.errorType.should.be.eql('RequestFormatError');
                     res.body.message.should.be.eql('Must include a question.');
+                    done();
                     });
         });
 
