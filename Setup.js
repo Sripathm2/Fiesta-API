@@ -73,7 +73,7 @@ function create_question_answer_table_function() {
 function create_wishlist_table_function() {
     wishlist.query(create_wishlist_table, (err, res) => {
         wishlist.end();
-    })
+    });
 }
 
 function create_feedback_table_function() {

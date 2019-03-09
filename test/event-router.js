@@ -41,7 +41,6 @@ describe('event-router', function() {
         });
     });
 
-
     describe('/POST answer', () => {
 
         let allFields = {
@@ -585,7 +584,7 @@ describe('event-router', function() {
                     res.body.errorType.should.be.eql('RequestFormatError');
                     res.body.message.should.be.eql('Must include a question.');
                     done();
-                    });
+                });
         });
 
     });
@@ -671,8 +670,7 @@ describe('event-router', function() {
 
 });
 
-
- /* it('it should fail with no questionID.', done => {
+/* it('it should fail with no questionID.', done => {
             chai.request(index)
                 .get('/event/selectQuestion')
                 .query({ event_id: '10000221', questionUserName: 'testUsername', question: 'tabood ghusadun?', answerUsername: 'iamsrk', answer: 'hiyaa', })
