@@ -165,7 +165,7 @@ eventRoutes.post('/question', (request ,response) => {
     pool.query(Insert_question_answer,[event_id, questionUserName, question, uuidv1(), null, null],(err,res) => {
         if(err) {
             pool.end();
-            return res.send({
+            return response.send({
                 errorType: 'InternalError',
                 message: err
             });
@@ -202,13 +202,13 @@ eventRoutes.post('/answer', (request ,response) => {
     pool.query(Insert_question_answer,[event_id, null, null, uuidv1(), answerUsername, answer],(err,res) => {
         if(err) {
             pool.end();
-            return res.send({
+            return response.send({
                 errorType: 'InternalError',
                 message: err
             });
         }
         pool.end();
-        return res.send({
+        return response.send({
                 message: 'sucess',
         });
     });
