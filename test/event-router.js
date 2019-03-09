@@ -535,7 +535,7 @@ describe('event-router', function() {
                 .end((err, res) => {
                     res.should.have.status(422);
                     res.body.errorType.should.be.eql('RequestFormatError');
-                    res.body.message.should.be.eql('Must include all the fields.');
+                    res.body.message.should.be.eql('Must include an event_id.');
                     done();
                 });
         });
@@ -543,7 +543,7 @@ describe('event-router', function() {
         it('it should fail with no answer. ', done => {
             chai.request(index)
                 .get('/event/selectQuestion')
-                .query({ event_id: '10000221', questionUserName: 'testUsername', question: 'tabood ghusadun?', questionID: '113924824', answerUsername: 'iamsrk', answer: 'hiyaaa', })
+                .query({ event_id: '10000221', questionUserName: 'testUsername', question: 'tabood ghusadun?', questionID: '113924824', answerUsername: 'iamsrk', })
                 .end((err, res) => {
                     res.should.have.status(422);
                     res.body.errorType.should.be.eql('RequestFormatError');
