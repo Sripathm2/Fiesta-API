@@ -35,7 +35,7 @@ eventRoutes.get('/selectQuestion', (request ,response) => {
             message: 'Must include the event_id.',
         });
     }
-    
+
     if (!request.body.questionUserName) {
         return response.status(422).send({
             errorType: 'RequestFormatError',
@@ -63,7 +63,7 @@ eventRoutes.get('/selectQuestion', (request ,response) => {
             message: 'Must include the answerUsername.',
         });
     }
-    
+
     if (!request.body.answer) {
         return response.status(422).send({
             errorType: 'RequestFormatError',
@@ -74,7 +74,7 @@ eventRoutes.get('/selectQuestion', (request ,response) => {
     const pool = new Pool({
         connectionString: connectionString,
     });
-    
+
     const{questionUserName, answerUsername} = request.body;
 
     pool.query(Select_question,[questionUserName, answerUsername],(err,res) => {
@@ -92,7 +92,7 @@ eventRoutes.get('/selectQuestion', (request ,response) => {
 // Selects answers
 
 eventRoutes.get('/selectAnswer', (request ,response) => {
-    
+
 
     if (!request.body.answerUsername) {
         return response.status(422).send({
@@ -100,7 +100,7 @@ eventRoutes.get('/selectAnswer', (request ,response) => {
             message: 'Must include the answerUsername.',
         });
     }
-    
+
     if (!request.body.answer) {
         return response.status(422).send({
             errorType: 'RequestFormatError',
@@ -111,7 +111,7 @@ eventRoutes.get('/selectAnswer', (request ,response) => {
     const pool = new Pool({
         connectionString: connectionString,
     });
-    
+
     const{questionUserName,answerUsername} = request.body;
 
     pool.query(Select_answer,[questionUserName,answerUsername],(err,res) => {
@@ -135,7 +135,7 @@ eventRoutes.post('/question', (request ,response) => {
             message: 'Must include the event_id.',
         });
     }
-    
+
     if (!request.body.questionUserName) {
         return response.status(422).send({
             errorType: 'RequestFormatError',
@@ -160,7 +160,7 @@ eventRoutes.post('/question', (request ,response) => {
     const pool = new Pool({
         connectionString: connectionString,
     });
-    
+
     const {event_id,questionUserName, question} = request.body;
     pool.query(Insert_question_answer,[event_id, questionUserName, question, uuidv1(), null, null],(err,res) => {
         if(err) {
@@ -183,7 +183,7 @@ eventRoutes.post('/answer', (request ,response) => {
             message: 'Must include the answerUsername.',
         });
     }
-    
+
     if (!request.body.answer) {
         return response.status(422).send({
             errorType: 'RequestFormatError',
@@ -194,7 +194,7 @@ eventRoutes.post('/answer', (request ,response) => {
     const pool = new Pool({
         connectionString: connectionString,
     });
-    
+
     const {event_id, answerUsername, answer } = request.body;
     pool.query(Insert_question_answer,[event_id, null, null, uuidv1(), answerUsername, answer],(err,res) => {
         if(err) {
@@ -211,14 +211,14 @@ eventRoutes.post('/answer', (request ,response) => {
 //This function is used to select from Wishlist
 
 eventRoutes.get('/selectWishlist', (request ,response) => {
-    if (!request.body.userName) {
+    if (!request.query.userName) {
             return response.status(422).send({
                 errorType: 'RequestFormatError',
                 message: 'Must include the owner userName.',
             });
         }
-        
-        if (!request.body.item) {
+
+        if (!request.query.item) {
             return response.status(422).send({
                 errorType: 'RequestFormatError',
                 message: 'Must include an item name for the wishlist.',
@@ -227,8 +227,8 @@ eventRoutes.get('/selectWishlist', (request ,response) => {
         const pool = new Pool({
             connectionString: connectionString,
         });
-        
-        const {userName} = request.body;
+
+        const {userName} = request.query;
         pool.query(Select_wishlist,[userName],(err,res) => {
             if(err) {
                 pool.end();
@@ -238,13 +238,13 @@ eventRoutes.get('/selectWishlist', (request ,response) => {
                 });
             }
             pool.end();
-    
+
             return res.send({
                 eventID: response.rows[0].id,
             });
         });
     });
-    
+
 
 // This function inserts an item into a wishlist
 
@@ -255,7 +255,7 @@ if (!request.body.userName) {
             message: 'Must include the owner userName.',
         });
     }
-    
+
     if (!request.body.item) {
         return response.status(422).send({
             errorType: 'RequestFormatError',
@@ -265,7 +265,7 @@ if (!request.body.userName) {
     const pool = new Pool({
         connectionString: connectionString,
     });
-    
+
     const {userName, item} = request.body;
     pool.query(Insert_wishlist_item,[userName,item],(err,res) => {
         if(err) {
@@ -292,7 +292,7 @@ eventRoutes.delete('/deleteWishlist/:id', (request, response) => {
             message: 'Must include the owner userName.',
         });
     }
-    
+
     if (!request.body.item) {
         return response.status(422).send({
             errorType: 'RequestFormatError',
@@ -338,9 +338,9 @@ eventRoutes.get('/event', (req, res) => {
             message: 'Must include location or latitude,longitude.',
         });
     }
-    
+
     let budget = req.body.budget ? req.body.budget : '1:2:3:4';
- 
+
     const searchRadius = 50;
 
     let url = 'https://eventup.com/api/v3/search/';
@@ -459,7 +459,7 @@ eventRoutes.post('/create', (req, res) => {
             message: 'Must include the caterer.',
         });
     }
-    
+
     let event = {};
     event.owner = req.body.userName;
     event.date = req.body.date;
@@ -639,21 +639,21 @@ eventRoutes.post('/rsvp', (req, res) => {
             message: 'Must include the guest username.',
         });
     }
-    
+
     if (!req.body.eventID) {
         return res.status(422).send({
             errorType: 'RequestFormatError',
             message: 'Must include the event ID.',
         });
     }
-    
+
     if (!req.body.status) {
         return res.status(422).send({
             errorType: 'RequestFormatError',
             message: 'Must include the rsvp status.',
         });
     }
-    
+
     if (req.body.status.toUpperCase() !== 'YES' && req.body.status.toUpperCase() !== 'NO') {
         return res.status(422).send({
             errorType: 'RequestFormatError',
