@@ -28,7 +28,7 @@ let eventRoutes = express.Router();
 
 // Selects Questions
 
-eventRoutes.get('/selectQuestion', (request ,response) => {
+eventRoutes.get('/selectQuestion', (request, response) => {
     if (!request.query.event_id) {
         return response.status(422).send({
             errorType: 'RequestFormatError',
@@ -75,28 +75,29 @@ eventRoutes.get('/selectQuestion', (request ,response) => {
         connectionString: connectionString,
     });
 
-    const{questionUserName, answerUsername} = request.query;
+    const{ questionUserName, answerUsername, } = request.query;
 
-    pool.query(Select_question,[questionUserName, answerUsername],(err,res) => {
+    pool.query(Select_question, [questionUserName, answerUsername, ], (err, res) => {
         if(err) {
             pool.end();
             return response.send({
                 errorType: 'InternalError',
-                message: err
+                message: err,
             });
         }
-        return response.send({
-                message: 'Success',
-                data: res.rows,
-        });
+
         pool.end();
+        return response.send({
+            message: 'Success',
+            data: res.rows,
+        });
+
     });
 });
 
 // Selects answers
 
-eventRoutes.get('/selectAnswer', (request ,response) => {
-
+eventRoutes.get('/selectAnswer', (request, response) => {
 
     if (!request.query.answerUsername) {
         return response.status(422).send({
@@ -116,9 +117,9 @@ eventRoutes.get('/selectAnswer', (request ,response) => {
         connectionString: connectionString,
     });
 
-    const{questionUserName,answerUsername} = request.query;
+    const{ questionUserName, answerUsername, } = request.query;
 
-    pool.query(Select_answer,[questionUserName,answerUsername],(err,res) => {
+    pool.query(Select_answer, [questionUserName, answerUsername, ], (err, res) => {
         if(err) {
             pool.end();
             return res.send({
@@ -132,7 +133,7 @@ eventRoutes.get('/selectAnswer', (request ,response) => {
 
 // This function permits users to post questions. --------------------------
 
-eventRoutes.post('/question', (request ,response) => {
+eventRoutes.post('/question', (request, response) => {
     if (!request.body.event_id) {
         return response.status(422).send({
             errorType: 'RequestFormatError',
@@ -165,8 +166,8 @@ eventRoutes.post('/question', (request ,response) => {
         connectionString: connectionString,
     });
 
-    const {event_id,questionUserName, question} = request.body;
-    pool.query(Insert_question_answer,[event_id, questionUserName, question, uuidv1(), null, null],(err,res) => {
+    const { event_id, questionUserName, question, } = request.body;
+    pool.query(Insert_question_answer, [event_id, questionUserName, question, uuidv1(), null, null, ], (err, res) => {
         if(err) {
             pool.end();
             return response.send({
@@ -202,8 +203,8 @@ eventRoutes.post('/answer', (request ,response) => {
         connectionString: connectionString,
     });
 
-    const {event_id, answerUsername, answer } = request.body;
-    pool.query(Insert_question_answer,[event_id, null, null, uuidv1(), answerUsername, answer],(err,res) => {
+    const { event_id, answerUsername, answer, } = request.body;
+    pool.query(Insert_question_answer, [event_id, null, null, uuidv1(), answerUsername, answer, ], (err, res) => {
         if(err) {
             pool.end();
             return response.send({
@@ -238,8 +239,8 @@ eventRoutes.get('/selectWishlist', (request ,response) => {
             connectionString: connectionString,
         });
 
-        const {userName} = request.query;
-        pool.query(Select_wishlist,[userName],(err,res1) => {
+        const { userName, } = request.query;
+        pool.query(Select_wishlist, [userName, ], (err, res1) => {
             if(err) {
                 pool.end();
                 return res.send({
@@ -276,8 +277,8 @@ if (!request.body.userName) {
         connectionString: connectionString,
     });
 
-    const {userName, item} = request.body;
-    pool.query(Insert_wishlist_item,[userName,item],(err,res) => {
+    const { userName, item, } = request.body;
+    pool.query(Insert_wishlist_item, [userName, item, ], (err, res) => {
         if(err) {
             pool.end();
             return res.send({
@@ -313,9 +314,9 @@ eventRoutes.delete('/deleteWishlist/:id', (request, response) => {
         connectionString: connectionString,
     });
 
-    const{id} = request.body;
+    const{ id, } = request.body;
 
-    pool.query(Delete_wishlist_item, [id], (err,res) => {
+    pool.query(Delete_wishlist_item, [id, ], (err, res) => {
         if(err) {
             pool.end();
             return res.send({
