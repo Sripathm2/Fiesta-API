@@ -124,7 +124,7 @@ eventRoutes.get('/selectAnswer', (request, response) => {
             pool.end();
             return res.send({
                 errorType: 'InternalError',
-                message: err
+                message: err,
             });
         }
         pool.end();
@@ -172,19 +172,19 @@ eventRoutes.post('/question', (request, response) => {
             pool.end();
             return response.send({
                 errorType: 'InternalError',
-                message: err
+                message: err,
             });
         }
         pool.end();
         return response.send({
-                message: 'Success',
+            message: 'Success',
         });
     });
 });
 
 // The function permits users to answer to questions.
 
-eventRoutes.post('/answer', (request ,response) => {
+eventRoutes.post('/answer', (request, response) => {
     if (!request.body.answerUsername) {
         return response.status(422).send({
             errorType: 'RequestFormatError',
@@ -209,58 +209,56 @@ eventRoutes.post('/answer', (request ,response) => {
             pool.end();
             return response.send({
                 errorType: 'InternalError',
-                message: err
+                message: err,
             });
         }
         pool.end();
         return response.send({
-                message: 'Success',
+            message: 'Success',
         });
     });
 });
 
 //This function is used to select from Wishlist
 
-eventRoutes.get('/selectWishlist', (request ,response) => {
+eventRoutes.get('/selectWishlist', (request, response) => {
     if (!request.query.userName) {
-            return response.status(422).send({
-                errorType: 'RequestFormatError',
-                message: 'Must include the owner userName.',
-            });
-        }
-
-        if (!request.query.item) {
-            return response.status(422).send({
-                errorType: 'RequestFormatError',
-                message: 'Must include an item name for the wishlist.',
-            });
-        }
-        const pool = new Pool({
-            connectionString: connectionString,
+        return response.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include the owner userName.',
         });
-
-        const { userName, } = request.query;
-        pool.query(Select_wishlist, [userName, ], (err, res1) => {
-            if(err) {
-                pool.end();
-                return res.send({
-                    errorType: 'InternalError',
-                    message: err
-                });
-            }
-            pool.end();
-
-            return response.send({
-                eventID: res1.rows[0],
-            });
+    }
+    if (!request.query.item) {
+        return response.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include an item name for the wishlist.',
         });
+    }
+    const pool = new Pool({
+        connectionString: connectionString,
     });
 
+    const { userName, } = request.query;
+    pool.query(Select_wishlist, [userName, ], (err, res1) => {
+        if(err) {
+            pool.end();
+            return res.send({
+                errorType: 'InternalError',
+                message: err,
+            });
+        }
+        pool.end();
+
+        return response.send({
+            eventID: res1.rows[0],
+        });
+    });
+});
 
 // This function inserts an item into a wishlist
 
-eventRoutes.put('/createWishlist', (request ,response) => {
-if (!request.body.userName) {
+eventRoutes.put('/createWishlist', (request, response) => {
+    if (!request.body.userName) {
         return response.status(422).send({
             errorType: 'RequestFormatError',
             message: 'Must include the owner userName.',
@@ -283,7 +281,7 @@ if (!request.body.userName) {
             pool.end();
             return res.send({
                 errorType: 'InternalError',
-                message: err
+                message: err,
             });
         }
         pool.end();
@@ -321,7 +319,7 @@ eventRoutes.delete('/deleteWishlist/:id', (request, response) => {
             pool.end();
             return res.send({
                 errorType: 'InternalError',
-                message: err
+                message: err,
             });
         }
         pool.end();
