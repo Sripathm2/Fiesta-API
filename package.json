@@ -39,7 +39,9 @@
     "cors": "^2.8.4",
     "uuid": "^3.3.2",
     "email-validator": "^2.0.4",
-    "password-validator": "^4.1.1"
+    "password-validator": "^4.1.1",
+    "nodemailer": "^5.1.1",
+    "axios":"^0.18.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
@@ -51,8 +53,7 @@
     "eslint-plugin-import": "^2.10.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.7.0",
-    "mocha": "^2.5.3",
-    "nodemailer": "^5.1.1"
+    "mocha": "^2.5.3"
   },
   "apidoc": {
     "title": "Fiesta API Documentation",
