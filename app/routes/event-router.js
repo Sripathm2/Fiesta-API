@@ -41,7 +41,7 @@ eventRoutes.get('/eventDetails', (request, response) => {
         connectionString: connectionString,
     });
 
-    const { id } = request.query;
+    const { id, } = request.query;
     pool.query(Select_event1, [id, ], (err, res1) => {
         if(err) {
             pool.end();
