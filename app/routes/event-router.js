@@ -11,6 +11,7 @@ const Insert_rsvp = 'INSERT INTO Rsvp (userName, eventID, status) VALUES ($1, $2
 const postImages = 'Update Events Set images = $1 Where id = $2';
 const Select_event = 'Select * from Events where owner = $1 AND id = $2';
 const Select_rsvp = 'Select * from Rsvp WHERE userName = $1';
+const Select_event1 = 'Select * from Events WHERE eventID = $1';
 
 const Insert_wishlist_item = 'INSERT INTO wishlist (userName, item) VALUES($1,$2)';
 const Delete_wishlist_item = 'DELETE FROM wishlist WHERE id=($1)';
@@ -26,6 +27,36 @@ const getTasks = 'Select tasks from Events where id = $1';
 // Instantiate router
 
 let eventRoutes = express.Router();
+
+// GET eventDetails
+
+eventRoutes.get('/eventDetails', (request, response) => {
+    if (!request.query.id) {
+        return response.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include the owner userName.',
+        });
+    }
+    const pool = new Pool({
+        connectionString: connectionString,
+    });
+
+    const { id } = request.query;
+    pool.query(Select_event1, [id, ], (err, res1) => {
+        if(err) {
+            pool.end();
+            return res.send({
+                errorType: 'InternalError',
+                message: err,
+            });
+        }
+        pool.end();
+
+        return response.send({
+            data: res1.rows[0],
+        });
+    });
+});
 
 // GET Rsvp
 
