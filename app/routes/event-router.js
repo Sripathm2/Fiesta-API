@@ -28,6 +28,7 @@ const getTasks = 'Select tasks from Events where id = $1';
 let eventRoutes = express.Router();
 
 // GET Rsvp
+
 eventRoutes.get('/SelectRsvp', (request, response) => {
     if (!request.query.userName) {
         return response.status(422).send({
