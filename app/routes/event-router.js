@@ -5,12 +5,12 @@ let nodemailer = require('nodemailer');
 let fs = require('fs');
 const uuidv1 = require('uuid/v1');
 const connectionString = process.env.DB_URL;
-const Insert_event = 'INSERT INTO Events (owner, date, location, partySupplier, caterer, guests, id) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id   ';
+const Insert_event = 'INSERT INTO Events (owner, date, location, partySupplier, caterer, guests, id) VALUES ($1, $2, $3, $5, $4, $6, $7) RETURNING id   ';
 const Update_event = 'Update Events Set date = $1, location = $2, partySupplier = $3, caterer = $4, guests = $5 Where owner = $6 AND id = $7';
 const Insert_rsvp = 'INSERT INTO Rsvp (userName, eventID, status) VALUES ($1, $2, $3)';
 const postImages = 'Update Events Set images = $1 Where id = $2';
-const Select_event = 'Select * from Events where owner = $1 AND id = $2';
-const Select_rsvp = 'Select * from Rsvp WHERE userName = $1';
+const Select_event = 'Select * from Events where owner = $1';
+const Select_rsvp = 'Select * from Rsvp ';
 const Select_event1 = 'Select * from Events WHERE eventID = $1';
 
 const Insert_wishlist_item = 'INSERT INTO wishlist (userName, item) VALUES($1,$2)';
@@ -20,7 +20,7 @@ const Select_question = 'SELECT * FROM questionanswer WHERE questionUserName=($1
 const Select_answer = 'SELECT * FROM questionanswer WHERE questionUserName=($1) AND answerUsername=($2)';
 const Select_wishlist = 'SELECT * FROM wishlist WHERE userName=($1)';
 
-const getImages = 'Select images from Events where id = $1';
+const getImages = 'Select id from Events where id = $1';
 const postTasks = 'Update Events Set tasks = $1 Where id = $2';
 const getTasks = 'Select tasks from Events where id = $1';
 
@@ -534,7 +534,7 @@ eventRoutes.post('/create', (req, res) => {
     let event = {};
     event.owner = req.body.userName;
     event.date = req.body.date;
-    event.location = req.body.location;
+    event.location = [req.body.location[1],req.body.location[0]];
     event.partySupplier = req.body.partySupplier;
     event.caterer = req.body.caterer;
     event.guests = req.body.guests ? req.body.guests : {};
