@@ -79,7 +79,7 @@ eventRoutes.post('/create_event', (req, res) => {
     });
 });
 
-eventRoutes.get('/get_event', (request, response) => {
+eventRoutes.get('/get_event', (req, res) => {
     if (!req.query.token) {
         return res.status(422).send({
             errorType: 'RequestFormatError',
