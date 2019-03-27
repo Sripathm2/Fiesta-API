@@ -111,11 +111,8 @@ eventRoutes.get('/get_event', (req, res) => {
                     message: err,
                 });
             }
-            console.log("asdfsdfsad");
-            console.log(response);
             
             pool.end();
-
 
             return res.send({
                 message: 'success',

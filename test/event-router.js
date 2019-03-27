@@ -181,6 +181,7 @@ describe('event-router', function() {
                 .query({ token: token, })
                 .end((err, res) => {
                     res.should.have.status(200);
+                    console.log(res.body);
                     res.body.message.should.be.eql('success');
                     res.body.data[0].name.should.be.eql('eventname');
                     res.body.data[0].owner.should.be.eql('owner1');
