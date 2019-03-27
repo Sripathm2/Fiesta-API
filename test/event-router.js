@@ -90,8 +90,8 @@ describe('event-router', function() {
                 .send(postdata)
                 .end((err, res) => {
                     res.should.have.status(422);
-                    res.body.errorType.should.be.eql('RequestFormatError');
-                    res.body.message.should.be.eql('Must include the token.');
+                    res.body.errorType.should.be.eql('InvalidTokenError');
+                    res.body.message.should.be.eql('invalid or expired token.');
                     done();
                 });
         });
@@ -109,9 +109,19 @@ describe('event-router', function() {
                 guest: '//**//guest1--guest1email--yes//**//guest2--guest2email--no//**//guest4-guest4email--',
                 wishlist: 'item1//**//item2', 
             };
+            const payload = {
+                userName: 'owner1',
+            };
+
+            let token;
+            token = jwt.sign(payload, process.env.secret, {
+                expiresIn: '10h',
+            });
+
 
             chai.request(index)
-                .post('/event/create')
+                .post('/event/create_event')
+                .query({ token: token, })
                 .send(postdata)
                 .end((err, res) => {
                     res.should.have.status(422);
