@@ -54,7 +54,7 @@ describe('event-router', function() {
                 partySupplier: 'walmart',
                 caterer: 'subway',
                 task: 'task1-user1//**//task2-user2',
-                guest: '//**//guest1--guest1email--yes//**//guest2--guest2email--no//**//guest4-guest4email--',
+                guest: '//**//guest1--guest1email--yes//**//guest2--guest2email--no//**//guest4--guest4email--',
                 wishlist: 'item1//**//item2',
             };
 
@@ -159,7 +159,7 @@ describe('event-router', function() {
                     res.body.data[1].partysupplier.should.be.eql('walmart');
                     res.body.data[1].caterer.should.be.eql('subway');
                     res.body.data[1].task.should.be.eql('task1-user1//**//task2-user2');
-                    res.body.data[1].guest.should.be.eql('//**//guest1--guest1email--yes//**//guest2--guest2email--no//**//guest4-guest4email--');
+                    res.body.data[1].guest.should.be.eql('//**//guest1--guest1email--yes//**//guest2--guest2email--no//**//guest4--guest4email--');
                     res.body.data[1].wishlist.should.be.eql('item1//**//item2');
                     done();
                 });
