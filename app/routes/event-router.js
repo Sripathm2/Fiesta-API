@@ -180,7 +180,7 @@ eventRoutes.post('/update_event', (req, res) => {
                 pool.end();
                 return res.send({
                     errorType: 'InternalError',
-                    message: err,
+                    message: error,
                 });
             }
 
