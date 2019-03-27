@@ -57,9 +57,9 @@ eventRoutes.post('/create_event', (req, res) => {
         });
 
         pool.query(Insert_event, [event.id, event.owner, event.name,
-                    event.description, event.date, event.imageLink, event.location,
-                    event.partySupplier, event.caterer, event.task, event.guest,
-                    event.wishlist, ],  (error, response) => {
+            event.description, event.date, event.imageLink, event.location,
+            event.partySupplier, event.caterer, event.task, event.guest,
+            event.wishlist, ],  (error, response) => {
 
             if(error){
                 pool.end();
@@ -78,7 +78,6 @@ eventRoutes.post('/create_event', (req, res) => {
 
     });
 });
-
 
 eventRoutes.get('/get_event', (request, response) => {
     if (!req.query.token) {
@@ -122,7 +121,6 @@ eventRoutes.get('/get_event', (request, response) => {
         });
     });
 });
-
 
 /**
  * @api {post} /update
@@ -247,9 +245,6 @@ function nodemailerSender(maillist){
 }
 
 module.exports = eventRoutes;
-
-
-
 
 /**
  * @api {post} /create

@@ -274,15 +274,12 @@ describe('user-router', function() {
                 expiresIn: '10h',
             });
 
-            console.log(token);
-
             chai.request(index)
                 .get('/user/getData')
                 .query({ token: token, })
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.message.should.be.eql('Success');
-                    console.log(res.body);
                     done();
                 });
         });
