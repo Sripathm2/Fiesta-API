@@ -22,6 +22,7 @@ const Update_event = 'UPDATE Events set name = coalesce( $1, name),' +
                         'wishlist = coalesce( $10, wishlist)' +
                         'where id = $11 and owner = $12;';
 const Select_event = 'select * from Events where owner = $1 OR guest LIKE $2';
+const Update_rsvp = 'UPDATE Events SET guest = REPLACE(guest, $1, $2) WHERE id = $3;'
 
 // Instantiate router
 
@@ -158,7 +159,7 @@ eventRoutes.post('/update_event', (req, res) => {
         event.owner = decode.userName;
         event.name = req.body.name ? req.body.name : null;
         event.description = req.body.description ? req.body.description : null;
-        event.date = req.body.date? req.body.date : null ;
+        event.date = req.body.date ? req.body.date : null ;
         event.imageLink = req.body.imageLink ? req.body.imageLink : null;
         event.location = req.body.location ? req.body.location : null;
         event.partySupplier = req.body.partySupplier ? req.body.partySupplier : null;
@@ -191,6 +192,59 @@ eventRoutes.post('/update_event', (req, res) => {
             });
         });
 
+    });
+});
+
+eventRoutes.get('/update_rsvp', (req, res) => {
+    if (!req.query.id) {
+        return res.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include the id.',
+        });
+    }
+
+    if (!req.query.username) {
+        return res.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include the username.',
+        });
+    }
+
+    if (!req.query.email) {
+        return res.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include the email.',
+        });
+    }
+
+
+    let event = {};
+    event.id = req.query.id;
+    event.username = req.query.username;
+    event.email = req.query.email;
+
+    let old = '//**//' + event.username + '--' + event.email + '--';
+    let newdata = '//**//' + event.username + '--' + event.email + '--' + 'yes';
+
+    const pool = new Pool({
+         connectionString: connectionString,
+    });
+
+    pool.query(Update_rsvp, [old, newdata, event.id,  ],  (error, response) => {
+
+        if(error){
+            pool.end();
+            return res.send({
+                errorType: 'InternalError',
+                message: error,
+            });
+        }
+
+        pool.end();
+
+        return res.send({
+            message: 'success',
+        });
     });
 });
 

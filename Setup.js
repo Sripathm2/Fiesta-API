@@ -48,7 +48,7 @@ const insert_events1 = 'INSERT into Events (id, owner, name, description, date,'
                                 '\'https://test.com\', \'location-1\',' +
                                 '\'walmart\', \'subway\',' +
                                 '\'task1-user1//**//task2-user2\',' +
-                                '\'guest1email--yes//**//guest2email--no//**//guest3\',' +
+                                '\'//**//guest1--guest1email--yes//**//guest2--guest2email--no\',' +
                                 '\'item1//**//item2\' );';
 
 function create_user_table_function() {
