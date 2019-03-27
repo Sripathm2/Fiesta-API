@@ -20,7 +20,7 @@ describe('event-router', function() {
                 partySupplier: 'walmart',
                 caterer: 'subway',
                 task: 'task1-user1//**//task2-user2',
-                guest: '//**//guest1--guest1email--yes//**//guest2--guest2email--no//**//guest4-guest4email--',
+                guest: '//**//guest1--guest1email--yes//**//guest2--guest2email--no//**//guest4--guest4email--',
                 wishlist: 'item1//**//item2',
             };
             const payload = {
