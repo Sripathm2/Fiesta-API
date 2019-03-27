@@ -133,7 +133,7 @@ describe('event-router', function() {
 
     });
 
-    describe('/POST create_event', () => {
+    describe('/POST update_event', () => {
 
         it('it should succeed with correct fields', done => {
 
@@ -165,7 +165,6 @@ describe('event-router', function() {
                 .send(postdata)
                 .end((err, res) => {
                     res.should.have.status(200);
-                    console.log(res.body);
                     res.body.message.should.be.eql('success');
                     done();
                 });
@@ -283,7 +282,7 @@ describe('event-router', function() {
                     res.body.data[1].name.should.be.eql('eventname1');
                     res.body.data[1].owner.should.be.eql('owner1');
                     res.body.data[1].description.should.be.eql('descrip1');
-                    res.body.data[1].date.should.be.eql('2019-03-27T12:01:02.000Z');
+                    res.body.data[1].date.should.be.eql('2019-03-27T12:01:03.000Z');
                     res.body.data[1].imagelink.should.be.eql('https://test.com1');
                     res.body.data[1].location.should.be.eql('location-11');
                     res.body.data[1].partysupplier.should.be.eql('walmart1');
