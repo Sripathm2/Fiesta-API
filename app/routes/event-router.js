@@ -26,7 +26,7 @@ eventRoutes.post('/create_event', (req, res) => {
     }
     jwt.verify(req.query.token, process.env.secret, function(err, decode) {
         if(err){
-            return res.send({
+            return res.status(422).send({
                 errorType: 'InvalidTokenError',
                 message: 'invalid or expired token.',
             });
