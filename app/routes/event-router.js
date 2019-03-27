@@ -113,7 +113,7 @@ eventRoutes.get('/get_event', (req, res) => {
             }
 
             pool.end();
-            console.log(response.rows);
+            console.log(response);
 
             return res.send({
                 message: 'success',
