@@ -113,6 +113,7 @@ eventRoutes.get('/get_event', (req, res) => {
             }
 
             pool.end();
+            console.log("asdfsdfsad");
             console.log(response);
 
             return res.send({
