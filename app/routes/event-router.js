@@ -5,561 +5,123 @@ let nodemailer = require('nodemailer');
 let fs = require('fs');
 const uuidv1 = require('uuid/v1');
 const connectionString = process.env.DB_URL;
-const Insert_event = 'INSERT INTO Events (owner, date, location, partySupplier, caterer, guests, id) VALUES ($1, $2, $3, $5, $4, $6, $7) RETURNING id   ';
+const Insert_event = 'INSERT into Events (id, owner, name, description, date,' +
+                       'imageLink, location, partySupplier, caterer,' +
+                       'task, guest, wishlist)' +
+                       'VALUES ( $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12);';
 const Update_event = 'Update Events Set date = $1, location = $2, partySupplier = $3, caterer = $4, guests = $5 Where owner = $6 AND id = $7';
-const Insert_rsvp = 'INSERT INTO Rsvp (userName, eventID, status) VALUES ($1, $2, $3)';
-const postImages = 'Update Events Set images = $1 Where id = $2';
-const Select_event = 'Select * from Events where owner = $1';
-const Select_rsvp = 'Select * from Rsvp ';
-const Select_event1 = 'Select * from Events WHERE eventID = $1';
-
-const Insert_wishlist_item = 'INSERT INTO wishlist (userName, item) VALUES($1,$2)';
-const Delete_wishlist_item = 'DELETE FROM wishlist WHERE id=($1)';
-const Insert_question_answer = 'INSERT INTO Questionanswer(event_id, questionUserName, question, questionID, answerUsername, answer) VALUES($1,$2,$3,$4,$5,$6)';
-const Select_question = 'SELECT * FROM questionanswer WHERE questionUserName=($1) AND answerUsername=($2)';
-const Select_answer = 'SELECT * FROM questionanswer WHERE questionUserName=($1) AND answerUsername=($2)';
-const Select_wishlist = 'SELECT * FROM wishlist WHERE userName=($1)';
-
-const getImages = 'Select id from Events where id = $1';
-const postTasks = 'Update Events Set tasks = $1 Where id = $2';
-const getTasks = 'Select tasks from Events where id = $1';
+const Select_event = 'select * from Events1 where owner = $1 OR guest LIKE $2';
 
 // Instantiate router
 
 let eventRoutes = express.Router();
 
-// GET eventDetails
-
-eventRoutes.get('/eventDetails', (request, response) => {
-    if (!request.query.id) {
-        return response.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include the owner userName.',
-        });
-    }
-    const pool = new Pool({
-        connectionString: connectionString,
-    });
-
-    const { id, } = request.query;
-    pool.query(Select_event1, [id, ], (err, res1) => {
-        if(err) {
-            pool.end();
-            return res.send({
-                errorType: 'InternalError',
-                message: err,
-            });
-        }
-        pool.end();
-
-        return response.send({
-            data: res1.rows[0],
-        });
-    });
-});
-
-// GET Rsvp
-
-eventRoutes.get('/SelectRsvp', (request, response) => {
-    if (!request.query.userName) {
-        return response.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include the owner userName.',
-        });
-    }
-    const pool = new Pool({
-        connectionString: connectionString,
-    });
-
-    const { userName, } = request.query;
-    pool.query(Select_rsvp, [userName, ], (err, res1) => {
-        if(err) {
-            pool.end();
-            return res.send({
-                errorType: 'InternalError',
-                message: err,
-            });
-        }
-        pool.end();
-
-        return response.send({
-            data: res1.rows[0],
-        });
-    });
-});
-
-// Selects Questions
-
-eventRoutes.get('/selectQuestion', (request, response) => {
-    if (!request.query.event_id) {
-        return response.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include an event_id.',
-        });
-    }
-
-    if (!request.query.questionUserName) {
-        return response.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include a questionUserName.',
-        });
-    }
-
-    if (!request.query.question) {
-        return response.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include a question.',
-        });
-    }
-
-    if (!request.query.questionID) {
-        return response.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include a questionID.',
-        });
-    }
-
-    if (!request.query.answerUsername) {
-        return response.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include the answerUsername.',
-        });
-    }
-
-    if (!request.query.answer) {
-        return response.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include an answer.',
-        });
-    }
-
-    const pool = new Pool({
-        connectionString: connectionString,
-    });
-
-    const{ questionUserName, answerUsername, } = request.query;
-
-    pool.query(Select_question, [questionUserName, answerUsername, ], (err, res) => {
-        if(err) {
-            pool.end();
-            return response.send({
-                errorType: 'InternalError',
-                message: err,
-            });
-        }
-
-        pool.end();
-        return response.send({
-            message: 'Success',
-            data: res.rows,
-        });
-
-    });
-});
-
-// Selects answers
-
-eventRoutes.get('/selectAnswer', (request, response) => {
-
-    if (!request.query.answerUsername) {
-        return response.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include the answerUsername.',
-        });
-    }
-
-    if (!request.query.answer) {
-        return response.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include an answer.',
-        });
-    }
-
-    const pool = new Pool({
-        connectionString: connectionString,
-    });
-
-    const{ questionUserName, answerUsername, } = request.query;
-
-    pool.query(Select_answer, [questionUserName, answerUsername, ], (err, res) => {
-        if(err) {
-            pool.end();
-            return res.send({
-                errorType: 'InternalError',
-                message: err,
-            });
-        }
-        pool.end();
-    });
-});
-
-// This function permits users to post questions. --------------------------
-
-eventRoutes.post('/question', (request, response) => {
-    if (!request.body.event_id) {
-        return response.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include the event_id.',
-        });
-    }
-
-    if (!request.body.questionUserName) {
-        return response.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include a questionUserName.',
-        });
-    }
-
-    if (!request.body.question) {
-        return response.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include a question.',
-        });
-    }
-
-    if (!request.body.questionID) {
-        return response.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include a questionID.',
-        });
-    }
-
-    const pool = new Pool({
-        connectionString: connectionString,
-    });
-
-    const { event_id, questionUserName, question, } = request.body;
-    pool.query(Insert_question_answer, [event_id, questionUserName, question, uuidv1(), null, null, ], (err, res) => {
-        if(err) {
-            pool.end();
-            return response.send({
-                errorType: 'InternalError',
-                message: err,
-            });
-        }
-        pool.end();
-        return response.send({
-            message: 'Success',
-        });
-    });
-});
-
-// The function permits users to answer to questions.
-
-eventRoutes.post('/answer', (request, response) => {
-    if (!request.body.answerUsername) {
-        return response.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include the answerUsername.',
-        });
-    }
-
-    if (!request.body.answer) {
-        return response.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include an answer.',
-        });
-    }
-
-    const pool = new Pool({
-        connectionString: connectionString,
-    });
-
-    const { event_id, answerUsername, answer, } = request.body;
-    pool.query(Insert_question_answer, [event_id, null, null, uuidv1(), answerUsername, answer, ], (err, res) => {
-        if(err) {
-            pool.end();
-            return response.send({
-                errorType: 'InternalError',
-                message: err,
-            });
-        }
-        pool.end();
-        return response.send({
-            message: 'Success',
-        });
-    });
-});
-
-//This function is used to select from Wishlist
-
-eventRoutes.get('/selectWishlist', (request, response) => {
-    if (!request.query.userName) {
-        return response.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include the owner userName.',
-        });
-    }
-    if (!request.query.item) {
-        return response.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include an item name for the wishlist.',
-        });
-    }
-    const pool = new Pool({
-        connectionString: connectionString,
-    });
-
-    const { userName, } = request.query;
-    pool.query(Select_wishlist, [userName, ], (err, res1) => {
-        if(err) {
-            pool.end();
-            return res.send({
-                errorType: 'InternalError',
-                message: err,
-            });
-        }
-        pool.end();
-
-        return response.send({
-            eventID: res1.rows[0],
-        });
-    });
-});
-
-// This function inserts an item into a wishlist
-
-eventRoutes.put('/createWishlist', (request, response) => {
-    if (!request.body.userName) {
-        return response.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include the owner userName.',
-        });
-    }
-
-    if (!request.body.item) {
-        return response.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include an item name for the wishlist.',
-        });
-    }
-    const pool = new Pool({
-        connectionString: connectionString,
-    });
-
-    const { userName, item, } = request.body;
-    pool.query(Insert_wishlist_item, [userName, item, ], (err, res) => {
-        if(err) {
-            pool.end();
-            return res.send({
-                errorType: 'InternalError',
-                message: err,
-            });
-        }
-        pool.end();
-
-        return res.send({
-            eventID: response.rows[0].id,
-        });
-    });
-});
-
-// This function deletes an item from a wishlist
-
-eventRoutes.delete('/deleteWishlist/:id', (request, response) => {
-    if (!request.body.userName) {
-        return response.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include the owner userName.',
-        });
-    }
-
-    if (!request.body.item) {
-        return response.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include an item name for the wishlist.',
-        });
-    }
-    const pool = new Pool({
-        connectionString: connectionString,
-    });
-
-    const{ id, } = request.body;
-
-    pool.query(Delete_wishlist_item, [id, ], (err, res) => {
-        if(err) {
-            pool.end();
-            return res.send({
-                errorType: 'InternalError',
-                message: err,
-            });
-        }
-        pool.end();
-    });
-});
-
-/**
- * @api {get} /event
- * @apiName event
- * @apiGroup event
- *
- * @apiQuery (body) {String} location name OR {String} location latitude,longitude.
- *                      {String} budget of the user in dollar signs 1, 2, 3, or 4, combinations possible ie. 1:2 for both 1 and 2 dollar amounts.
- *
- * @apiSuccess {String} up to 100 results.
- * @apiError (RequestFormatError) 422 For missing data or invalid location/lat,lon or budget.
- * @apiError (Internal Error) 500+ Internal Error
-**/
-
-eventRoutes.get('/event', (req, res) => {
-
-    if (!req.query.location && !req.query.latlon) {
+eventRoutes.post('/create_event', (req, res) => {
+    if (!req.query.token) {
         return res.status(422).send({
             errorType: 'RequestFormatError',
-            message: 'Must include location or latitude,longitude.',
+            message: 'Must include the token.',
         });
     }
-
-    let budget = req.body.budget ? req.body.budget : '1:2:3:4';
-
-    const searchRadius = 50;
-
-    let url = 'https://eventup.com/api/v3/search/';
-    if (req.query.location) {
-        url = url + 'place/';
-    } else {
-        let coords = req.query.latlon.split(',');
-        if (coords.length !== 2 || isNaN(coords[0]) || isNaN(coords[1])) {
-            return res.status(422).send({
-                errorType: 'RequestFormatError',
-                message: 'Invalid latitude,longitude format.',
-            });
-        }
-
-        if (+coords[0] < -180 || +coords[0] > 180 || +coords[1] < -90 || +coords[1] > 90) {
-            return res.status(422).send({
-                errorType: 'RequestFormatError',
-                message: 'Invalid values for latitude/longitude.',
-            });
-        }
-
-        url = url + 'lat_lng/' + req.query.latlon + '/';
-    }
-
-    axios.get(url, {
-        params: {
-            dollar_signs: req.query.budget,
-            radius: searchRadius,
-            search: req.query.location,
-        },
-    })
-        .then(function (response) {
-            const ven = response.data.venues;
-            let venues = [];
-            for (let i = 0; i < response.data.count; i++) {
-                if (i >= 100) {
-                    break;
-                }
-                if (i in ven) {
-                    if ('title' in ven[i]) {
-                        venues.push(ven[i]['title']);
-                    }
-                }
-            }
-            res.send({
-                data: venues,
-            });
-        })
-        .catch(function (error) {
-            return res.status(500).send({
-                errorType: 'Internal Error',
-                message: error,
-            });
-        });
-});
-
-/**
- * @api {post} /create
- * @apiName create
- * @apiGroup event
- *
- * @apiParam (body) {String} userName of event owner.
- *                      {String} date of event in format 'YYYY-MM-DD HH:mm:SS'
- *                      {float[2]} array of floats containing longitude/latitude.
- *                      {String} name of party supplier.
- *                      {String} name of caterer.
- *                      {String[]} array of guests invited.
- *
- * @apiParamExample {JSON} Request Body Example
- *      {
-            userName: 'johndoe',
-            date: '2019-02-09 05:00:00',
-            location: [ 40.423540, -86.921740 ],
-            partySupplier: 'Party City',
-            caterer: 'Chipotle',
-            guests: [ 'Jane Doe', 'Scott Smith', 'George Washington' ]
-        }
- * @apiSuccess {String} eventID.
- * @apiError (RequestFormatError) 422 For missing parameter(s).
- * @apiError (Internal Error) 500+ Internal Error.
-**/
-
-eventRoutes.post('/create', (req, res) => {
-
-    if (!req.body.userName) {
-        return res.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include the owner userName.',
-        });
-    }
-
-    if (!req.body.date) {
-        return res.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include the date.',
-        });
-    }
-
-    if (!req.body.location) {
-        return res.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include the location.',
-        });
-    }
-
-    if (!req.body.partySupplier) {
-        return res.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include the partySupplier.',
-        });
-    }
-
-    if (!req.body.caterer) {
-        return res.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include the caterer.',
-        });
-    }
-
-    let event = {};
-    event.owner = req.body.userName;
-    event.date = req.body.date;
-    event.location = [req.body.location[1],req.body.location[0]];
-    event.partySupplier = req.body.partySupplier;
-    event.caterer = req.body.caterer;
-    event.guests = req.body.guests ? req.body.guests : {};
-
-    const pool = new Pool({
-        connectionString: connectionString,
-    });
-
-    pool.query(Insert_event, [event.owner, event.date, event.location, event.partySupplier, event.caterer, event.guests, uuidv1(),  ],  (err, response) => {
-
+    jwt.verify(req.query.token, process.env.secret, function(err, decode) {
         if(err){
-            pool.end();
             return res.send({
-                errorType: 'InternalError',
-                message: err,
+                errorType: 'InvalidTokenError',
+                message: 'invalid or expired token.',
+            });
+        }
+        if (!req.body.date) {
+            return res.status(422).send({
+                errorType: 'RequestFormatError',
+                message: 'Must include the date.',
             });
         }
 
-        pool.end();
+        let event = {};
+        event.id = uuidv1();
+        event.owner = decode.userName;
+        event.name = req.body.name ? req.body.name : ' ';
+        event.description = req.body.description ? req.body.description : ' ';
+        event.date = req.body.date;
+        event.imageLink = req.body.imageLink ? req.body.imageLink : ' ';
+        event.location = req.body.location ? req.body.location : ' ';
+        event.partySupplier = req.body.partySupplier ? req.body.partySupplier : ' ';
+        event.caterer = req.body.caterer ? req.body.caterer : ' ';
+        event.task = req.body.task ? req.body.task : ' ';
+        event.guest = req.body.guest ? req.body.guest : ' ';
+        event.wishlist = req.body.wishlist ? req.body.wishlist : ' ';
 
-        return res.send({
-            data: response.rows[0].id,
+        const pool = new Pool({
+            connectionString: connectionString,
+        });
+
+        pool.query(Insert_event, [event.id, event.owner, event.name,
+                    event.description, event.date, event.imageLink, event.location,
+                    event.partySupplier, event.caterer, event.task, event.guest,
+                    event.wishlist, ],  (error, response) => {
+
+            if(error){
+                pool.end();
+                return res.send({
+                    errorType: 'InternalError',
+                    message: err,
+                });
+            }
+
+            pool.end();
+
+            return res.send({
+                message: 'success',
+            });
+        });
+
+    });
+});
+
+
+eventRoutes.get('/get_event', (request, response) => {
+    if (!req.query.token) {
+        return res.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include the token.',
+        });
+    }
+    jwt.verify(req.query.token, process.env.secret, function(err, decode) {
+        if(err){
+            return res.send({
+                errorType: 'InvalidTokenError',
+                message: 'invalid or expired token.',
+            });
+        }
+
+        const pool = new Pool({
+            connectionString: connectionString,
+        });
+
+        let event = {};
+        event.owner = decode.userName;
+        event.guest = '%//**//' + decode.userName + '--%';
+
+        pool.query(Select_event, [event.owner, event.guest, ],  (error, response) => {
+
+            if(error){
+                pool.end();
+                return res.send({
+                    errorType: 'InternalError',
+                    message: err,
+                });
+            }
+
+            pool.end();
+
+            return res.send({
+                message: 'success',
+                data: response.rows,
+            });
         });
     });
 });
+
 
 /**
  * @api {post} /update
@@ -683,302 +245,33 @@ function nodemailerSender(maillist){
     });
 }
 
-/**
- * @api {post} /rsvp
- * @apiName rsvp
- * @apiGroup event
- *
- * @apiParam (body) {String} userName
-                    {String} id of the event
-                    {String} rsvp status ('yes'/'no')
- *
- * @apiParamExample {JSON} Request Body Example
- *      {
-            userName: 'johndoe',
-            id: 'jhbbgdciuwdc',
-            status: 'yes'
-        }
- * @apiSuccess {String} message: success.
- * @apiError (RequestFormatError) 422 For missing parameter(s).
- * @apiError (Internal Error) 500+ Internal Error.
-**/
-
-eventRoutes.post('/rsvp', (req, res) => {
-    if (!req.body.userName) {
-        return res.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include the guest username.',
-        });
-    }
-
-    if (!req.body.eventID) {
-        return res.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include the event ID.',
-        });
-    }
-
-    if (!req.body.status) {
-        return res.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include the rsvp status.',
-        });
-    }
-
-    if (req.body.status.toUpperCase() !== 'YES' && req.body.status.toUpperCase() !== 'NO') {
-        return res.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include valid rsvp status.',
-        });
-    }
-
-    let rsvp = {};
-    rsvp.user = req.body.userName;
-    rsvp.eventID = req.body.eventID;
-    rsvp.status = req.body.status;
-
-    const pool = new Pool({
-        connectionString: connectionString,
-    });
-
-    pool.query(Insert_rsvp, [rsvp.user, rsvp.eventID, rsvp.status, ],  (err, response) => {
-
-        if(err){
-            pool.end();
-            return res.send({
-                errorType: 'InternalError',
-                message: err,
-            });
-        }
-
-        pool.end();
-
-        return res.send({
-            message: 'success',
-        });
-    });
-});
-
-/**
- * @api {post} /image_post
- * @apiName image_post
- * @apiGroup event
- *
- * @apiParam (body) {String} data of the images encoded 64.
-                    {String} id of the event
- *
- * @apiParamExample {JSON} Request Body Example
- *      {
-            data: 'oaisduhfhugiouhedrgiergiuoher',
-            id: 'jhbbgdciuwdc'
-        }
- * @apiSuccess {String} message: success.
- * @apiError (RequestFormatError) 422 For missing parameter(s).
- * @apiError (Internal Error) 500+ Internal Error.
-**/
-
-eventRoutes.post('/image_post', (req, res) => {
-
-    if (!req.body.id) {
-        return res.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include the id.',
-        });
-    }
-
-    if (!req.body.data) {
-        return res.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include the data.',
-        });
-    }
-
-    let event = {};
-    event.data = req.body.data;
-    event.id = req.body.id;
-
-    const pool = new Pool({
-        connectionString: connectionString,
-    });
-
-    pool.query(postImages, [event.data, event.id, ],  (err, response) => {
-
-        if(err){
-            pool.end();
-            return res.status(501).send({
-                errorType: 'InternalError',
-                message: err,
-            });
-        }
-
-        pool.end();
-        return res.send({
-            message: 'sucess',
-        });
-
-    });
-});
-
-/**
- * @api {get} /image_get
- * @apiName image_get
- * @apiGroup event
- *
- * @apiParam (query) {String} id of the event
- *
- * @apiParamExample {JSON} Request query Example
- *      {
-            id: 'jhbbgdciuwdc'
-        }
- * @apiSuccess {String} image data.
- * @apiError (RequestFormatError) 422 For missing parameter(s).
- * @apiError (Internal Error) 500+ Internal Error.
-**/
-
-eventRoutes.get('/image_get', (req, res) => {
-
-    if (!req.query.id) {
-        return res.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include the id.',
-        });
-    }
-
-    let event = {};
-    event.id = req.query.id;
-
-    const pool = new Pool({
-        connectionString: connectionString,
-    });
-
-    pool.query(getImages, [event.id, ],  (err, response) => {
-
-        if(err){
-            pool.end();
-            return res.status(501).send({
-                errorType: 'InternalError',
-                message: err,
-            });
-        }
-
-        pool.end();
-        return res.send({
-            message: 'sucess',
-            data: response.rows[0],
-        });
-
-    });
-});
-
-/**
- * @api {post} /tasks_post
- * @apiName tasks_post
- * @apiGroup event
- *
- * @apiParam (body) {String} tasks of the event.
-                    {String} id of the event
- *
- * @apiParamExample {JSON} Request Body Example
- *      {
-            task: '{oaisduhfhugiouhedrgiergiuoher}',
-            id: 'jhbbgdciuwdc'
-        }
- * @apiSuccess {String} message: success.
- * @apiError (RequestFormatError) 422 For missing parameter(s).
- * @apiError (Internal Error) 500+ Internal Error.
-**/
-
-eventRoutes.post('/tasks_post', (req, res) => {
-
-    if (!req.body.id) {
-        return res.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include the id.',
-        });
-    }
-
-    if (!req.body.task) {
-        return res.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include the data.',
-        });
-    }
-
-    let event = {};
-    event.task = req.body.task;
-    event.id = req.body.id;
-
-    const pool = new Pool({
-        connectionString: connectionString,
-    });
-
-    pool.query(postTasks, [event.task, event.id, ],  (err, response) => {
-
-        if(err){
-            pool.end();
-            return res.status(501).send({
-                errorType: 'InternalError',
-                message: err,
-            });
-        }
-
-        pool.end();
-        return res.send({
-            message: 'sucess',
-        });
-
-    });
-});
-
-/**
- * @api {get} /tasks_get
- * @apiName task_get
- * @apiGroup event
- *
- * @apiParam (query) {String} id of the event
- *
- * @apiParamExample {JSON} Request query Example
- *      {
-            id: 'jhbbgdciuwdc'
-        }
- * @apiSuccess {String} image data.
- * @apiError (RequestFormatError) 422 For missing parameter(s).
- * @apiError (Internal Error) 500+ Internal Error.
-**/
-
-eventRoutes.get('/tasks_get', (req, res) => {
-
-    if (!req.query.id) {
-        return res.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include the id.',
-        });
-    }
-
-    let event = {};
-    event.id = req.query.id;
-
-    const pool = new Pool({
-        connectionString: connectionString,
-    });
-
-    pool.query(getTasks, [event.id, ],  (err, response) => {
-
-        if(err){
-            pool.end();
-            return res.status(501).send({
-                errorType: 'InternalError',
-                message: err,
-            });
-        }
-
-        pool.end();
-        return res.send({
-            message: 'sucess',
-            data: response.rows[0],
-        });
-
-    });
-});
-
 module.exports = eventRoutes;
+
+
+
+
+/**
+ * @api {post} /create
+ * @apiName create
+ * @apiGroup event
+ *
+ * @apiParam (body) {String} userName of event owner.
+ *                      {String} date of event in format 'YYYY-MM-DD HH:mm:SS'
+ *                      {float[2]} array of floats containing longitude/latitude.
+ *                      {String} name of party supplier.
+ *                      {String} name of caterer.
+ *                      {String[]} array of guests invited.
+ *
+ * @apiParamExample {JSON} Request Body Example
+ *      {
+ *          userName: 'johndoe',
+ *           date: '2019-02-09 05:00:00',
+ *           location: [ 40.423540, -86.921740 ],
+ *           partySupplier: 'Party City',
+ *           caterer: 'Chipotle',
+ *           guests: [ 'Jane Doe', 'Scott Smith', 'George Washington' ]
+ *       }
+ * @apiSuccess {String} eventID.
+ * @apiError (RequestFormatError) 422 For missing parameter(s).
+ * @apiError (Internal Error) 500+ Internal Error.
+*/
