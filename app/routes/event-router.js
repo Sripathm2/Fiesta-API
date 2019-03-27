@@ -10,7 +10,7 @@ const Insert_event = 'INSERT into Events (id, owner, name, description, date,' +
                        'imageLink, location, partySupplier, caterer,' +
                        'task, guest, wishlist)' +
                        'VALUES ( $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12);';
-const Update_event = 'UPDATE Events1 set name = coalesce( $1, name),' + 
+const Update_event = 'UPDATE Events set name = coalesce( $1, name),' +
                         'description = coalesce( $2, description),' +
                         'date = coalesce( $3, date),' +
                         'imageLink = coalesce( $4, imageLink),' +
@@ -121,7 +121,7 @@ eventRoutes.get('/get_event', (req, res) => {
                     message: err,
                 });
             }
-            
+
             pool.end();
 
             return res.send({
@@ -171,7 +171,7 @@ eventRoutes.post('/update_event', (req, res) => {
             connectionString: connectionString,
         });
 
-        pool.query(Update_event, [event.name, event.description, event.date, 
+        pool.query(Update_event, [event.name, event.description, event.date,
             event.imageLink, event.location,
             event.partySupplier, event.caterer, event.task, event.guest,
             event.wishlist, event.id, event.owner,  ],  (error, response) => {
