@@ -11,7 +11,7 @@ const Insert_event = 'INSERT into Events (id, owner, name, description, date,' +
                        'task, guest, wishlist)' +
                        'VALUES ( $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12);';
 const Update_event = 'Update Events Set date = $1, location = $2, partySupplier = $3, caterer = $4, guests = $5 Where owner = $6 AND id = $7';
-const Select_event = 'select * from Events1 where owner = $1 OR guest LIKE $2';
+const Select_event = 'select * from Events where owner = $1 OR guest LIKE $2';
 
 // Instantiate router
 
