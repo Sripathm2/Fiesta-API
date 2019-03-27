@@ -240,6 +240,13 @@ userRoutes.post('/forgetPassword', (req, res) => {
         });
     }
 
+    if (!req.body.securityQuestion) {
+        return res.status(422).send({
+            errorType: 'RequestFormatError',
+            message: 'Must include the securityQuestion.',
+        });
+    }
+
     if (!req.body.securityAnswer) {
         return res.status(422).send({
             errorType: 'RequestFormatError',
