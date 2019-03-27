@@ -150,6 +150,7 @@ describe('event-router', function() {
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.message.should.be.eql('success');
+                    console.log(res.body);
                     res.body.data[0].name.should.be.eql('eventname');
                     res.body.data[0].owner.should.be.eql('owner1');
                     res.body.data[0].description.should.be.eql('descrip');
