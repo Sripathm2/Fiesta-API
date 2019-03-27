@@ -177,6 +177,7 @@ eventRoutes.post('/update_event', (req, res) => {
             event.wishlist, event.id, event.owner,  ],  (error, response) => {
 
             if(error){
+                console.log(resposnse);
                 pool.end();
                 return res.send({
                     errorType: 'InternalError',
