@@ -165,6 +165,7 @@ describe('event-router', function() {
                 .send(postdata)
                 .end((err, res) => {
                     res.should.have.status(200);
+                    console.log(res.body);
                     res.body.message.should.be.eql('success');
                     done();
                 });
@@ -248,7 +249,7 @@ describe('event-router', function() {
             });
 
             chai.request(index)
-                .post('/event/create_event')
+                .post('/event/update_event')
                 .query({ token: token, })
                 .send(postdata)
                 .end((err, res) => {
