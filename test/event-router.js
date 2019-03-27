@@ -266,7 +266,7 @@ describe('event-router', function() {
         it('it should succeed with correct fields and owner.', done => {
 
             const payload = {
-                userName: 'guest4',
+                username: 'guest4',
                 email: 'guest4email',
                 id: '1',
             };
