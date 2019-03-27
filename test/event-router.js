@@ -150,11 +150,10 @@ describe('event-router', function() {
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.message.should.be.eql('success');
-                    console.log(res.body);
                     res.body.data[0].name.should.be.eql('eventname');
                     res.body.data[0].owner.should.be.eql('owner1');
                     res.body.data[0].description.should.be.eql('descrip');
-                    res.body.data[0].date.should.be.eql('2019-03-27T12:01:02+00:00');
+                    res.body.data[0].date.should.be.eql('2019-03-27T12:01:02.000Z');
                     res.body.data[0].imageLink.should.be.eql('https://test.com');
                     res.body.data[0].location.should.be.eql('location-1');
                     res.body.data[0].partySupplier.should.be.eql('walmart');
@@ -187,7 +186,7 @@ describe('event-router', function() {
                     res.body.data[0].name.should.be.eql('eventname');
                     res.body.data[0].owner.should.be.eql('owner1');
                     res.body.data[0].description.should.be.eql('descrip');
-                    res.body.data[0].date.should.be.eql('2019-03-27T12:01:02+00:00');
+                    res.body.data[0].date.should.be.eql('2019-03-27T12:01:02.000Z');
                     res.body.data[0].imageLink.should.be.eql('https://test.com');
                     res.body.data[0].location.should.be.eql('location-1');
                     res.body.data[0].partySupplier.should.be.eql('walmart');
