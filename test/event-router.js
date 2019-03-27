@@ -192,7 +192,7 @@ describe('event-router', function() {
                     res.body.data[0].partysupplier.should.be.eql('walmart');
                     res.body.data[0].caterer.should.be.eql('subway');
                     res.body.data[0].task.should.be.eql('task1-user1//**//task2-user2');
-                    res.body.data[0].guest.should.be.eql('//**//guest1--guest1email--yes//**//guest2--guest2email--no//**//guest4-guest4email--');
+                    res.body.data[0].guest.should.be.eql('//**//guest1--guest1email--yes//**//guest2--guest2email--no//**//guest4--guest4email--');
                     res.body.data[0].wishlist.should.be.eql('item1//**//item2');
                     done();
                 });
