@@ -281,6 +281,58 @@ describe('event-router', function() {
                 });
         });
 
+        it('it should fail with missing email.', done => {
+
+            const payload = {
+                username: 'guest4',
+                id: '1',
+            };
+
+            chai.request(index)
+                .get('/event/update_rsvp')
+                .query(payload)
+                .end((err, res) => {
+                    res.should.have.status(422);
+                    res.body.errorType.should.be.eql('RequestFormatError');
+                    res.body.message.should.be.eql('Must include the email.');
+                    done();
+                });
+        });
+
+        it('it should fail with missing username.', done => {
+
+            const payload = {
+                username: 'guest4',
+                id: '1',
+            };
+
+            chai.request(index)
+                .get('/event/update_rsvp')
+                .query(payload)
+                .end((err, res) => {
+                    res.should.have.status(422);
+                    res.body.errorType.should.be.eql('RequestFormatError');
+                    res.body.message.should.be.eql('Must include the username.');
+                    done();
+                });
+        });
+
+        it('it should fail with missing username.', done => {
+
+            const payload = {
+            };
+
+            chai.request(index)
+                .get('/event/update_rsvp')
+                .query(payload)
+                .end((err, res) => {
+                    res.should.have.status(422);
+                    res.body.errorType.should.be.eql('RequestFormatError');
+                    res.body.message.should.be.eql('Must include the id.');
+                    done();
+                });
+        });
+
     });
 
     describe('/GET get_event', () => {
@@ -311,8 +363,8 @@ describe('event-router', function() {
                     res.body.data[1].partysupplier.should.be.eql('walmart1');
                     res.body.data[1].caterer.should.be.eql('subway1');
                     res.body.data[1].task.should.be.eql('task1-user1//**//task2-user21');
-                    res.body.data[1].guest.should.be.eql('//**//guest1--guest1email--yes//**//guest2--guest2email--no//**//guest4--guest4email--1');
-                    res.body.data[0].guest.should.be.eql('//**//guest1--guest1email--yes//**//guest2--guest2email--no//**//guest4--guest4email--yes1');
+                    res.body.data[1].guest.should.be.eql('//**//guest1--guest1email--yes//**//guest2--guest2email--no//**//guest4--guest4email--yes1');
+                    res.body.data[0].guest.should.be.eql('//**//guest1--guest1email--yes//**//guest2--guest2email--no//**//guest4--guest4email--1');
                     res.body.data[1].wishlist.should.be.eql('item1//**//item21');
                     done();
                 });
