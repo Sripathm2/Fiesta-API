@@ -281,7 +281,7 @@ describe('event-router', function() {
                     res.should.have.status(200);
                     res.body.message.should.be.eql('success');
                     res.body.data[1].name.should.be.eql('eventname1');
-                    res.body.data[1].owner.should.be.eql('owner11');
+                    res.body.data[1].owner.should.be.eql('owner1');
                     res.body.data[1].description.should.be.eql('descrip1');
                     res.body.data[1].date.should.be.eql('2019-03-27T12:01:02.000Z');
                     res.body.data[1].imagelink.should.be.eql('https://test.com1');
