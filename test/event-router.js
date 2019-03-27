@@ -7,6 +7,7 @@ let expect = chai.expect;
 chai.use(chaiHttp);
 
 describe('event-router', function() {
+
     describe('/POST create_event', () => {
 
         it('it should succeed with correct fields', done => {
@@ -131,6 +132,134 @@ describe('event-router', function() {
         });
 
     });
+
+    describe('/POST create_event', () => {
+
+        it('it should succeed with correct fields', done => {
+
+            let postdata = {
+                id: '1',
+                name: 'eventname1',
+                description: 'descrip1',
+                date: '2019-03-27T12:01:03+00:00',
+                imageLink: 'https://test.com1',
+                location: 'location-11',
+                partySupplier: 'walmart1',
+                caterer: 'subway1',
+                task: 'task1-user1//**//task2-user21',
+                guest: '//**//guest1--guest1email--yes//**//guest2--guest2email--no//**//guest4--guest4email--1',
+                wishlist: 'item1//**//item21',
+            };
+            const payload = {
+                userName: 'owner1',
+            };
+
+            let token;
+            token = jwt.sign(payload, process.env.secret, {
+                expiresIn: '10h',
+            });
+
+            chai.request(index)
+                .post('/event/update_event')
+                .query({ token: token, })
+                .send(postdata)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.message.should.be.eql('success');
+                    done();
+                });
+        });
+
+        it('it should fail with missing token', done => {
+
+            let postdata = {
+                id: '1',
+                name: 'eventname',
+                description: 'descrip',
+                date: '2019-03-27T12:01:02+00:00',
+                imageLink: 'https://test.com',
+                location: 'location-1',
+                partySupplier: 'walmart',
+                caterer: 'subway',
+                task: 'task1-user1//**//task2-user2',
+                guest: '//**//guest1--guest1email--yes//**//guest2--guest2email--no//**//guest4--guest4email--',
+                wishlist: 'item1//**//item2',
+            };
+
+            chai.request(index)
+                .post('/event/update_event')
+                .send(postdata)
+                .end((err, res) => {
+                    res.should.have.status(422);
+                    res.body.errorType.should.be.eql('RequestFormatError');
+                    res.body.message.should.be.eql('Must include the token.');
+                    done();
+                });
+        });
+
+        it('it should fail with invalid token', done => {
+
+            let postdata = {
+                id: '1',
+                name: 'eventname',
+                description: 'descrip',
+                date: '2019-03-27T12:01:02+00:00',
+                imageLink: 'https://test.com',
+                location: 'location-1',
+                partySupplier: 'walmart',
+                caterer: 'subway',
+                task: 'task1-user1//**//task2-user2',
+                guest: '//**//guest1--guest1email--yes//**//guest2--guest2email--no//**//guest4-guest4email--',
+                wishlist: 'item1//**//item2',
+            };
+
+            chai.request(index)
+                .post('/event/update_event')
+                .query({ token: 'invalidtoken', })
+                .send(postdata)
+                .end((err, res) => {
+                    res.should.have.status(422);
+                    res.body.errorType.should.be.eql('InvalidTokenError');
+                    res.body.message.should.be.eql('invalid or expired token.');
+                    done();
+                });
+        });
+
+        it('it should fail with missing id', done => {
+
+            let postdata = {
+                name: 'eventname',
+                description: 'descrip',
+                imageLink: 'https://test.com',
+                location: 'location-1',
+                partySupplier: 'walmart',
+                caterer: 'subway',
+                task: 'task1-user1//**//task2-user2',
+                guest: '//**//guest1--guest1email--yes//**//guest2--guest2email--no//**//guest4-guest4email--',
+                wishlist: 'item1//**//item2',
+            };
+            const payload = {
+                userName: 'owner1',
+            };
+
+            let token;
+            token = jwt.sign(payload, process.env.secret, {
+                expiresIn: '10h',
+            });
+
+            chai.request(index)
+                .post('/event/create_event')
+                .query({ token: token, })
+                .send(postdata)
+                .end((err, res) => {
+                    res.should.have.status(422);
+                    res.body.errorType.should.be.eql('RequestFormatError');
+                    res.body.message.should.be.eql('Must include the id.');
+                    done();
+                });
+        });
+
+    });
     describe('/GET get_event', () => {
 
         it('it should succeed with correct fields and owner.', done => {
@@ -180,8 +309,6 @@ describe('event-router', function() {
                 .get('/event/get_event')
                 .query({ token: token, })
                 .end((err, res) => {
-                    res.should.have.status(200);
-                    console.log(res.body);
                     res.body.message.should.be.eql('success');
                     res.body.data[0].name.should.be.eql('eventname');
                     res.body.data[0].owner.should.be.eql('owner1');

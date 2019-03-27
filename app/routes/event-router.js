@@ -10,7 +10,17 @@ const Insert_event = 'INSERT into Events (id, owner, name, description, date,' +
                        'imageLink, location, partySupplier, caterer,' +
                        'task, guest, wishlist)' +
                        'VALUES ( $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12);';
-const Update_event = 'Update Events Set date = $1, location = $2, partySupplier = $3, caterer = $4, guests = $5 Where owner = $6 AND id = $7';
+const Update_event = 'UPDATE Events1 set name = coalesce( $1, name),' + 
+                        'description = coalesce( $2, description),' +
+                        'date = coalesce( $3, date),' +
+                        'imageLink = coalesce( $4, imageLink),' +
+                        'location = coalesce( $5, location),' +
+                        'partySupplier = coalesce( $6, partySupplier),' +
+                        'caterer = coalesce( $7, caterer),' +
+                        'task = coalesce( $8, task),' +
+                        'guest = coalesce( $9, guest),' +
+                        'wishlist = coalesce( $10, wishlist),' +
+                        'where id = $11 and owner = $12;';
 const Select_event = 'select * from Events where owner = $1 OR guest LIKE $2';
 
 // Instantiate router
@@ -122,99 +132,65 @@ eventRoutes.get('/get_event', (req, res) => {
     });
 });
 
-/**
- * @api {post} /update
- * @apiName update
- * @apiGroup event
- *
- * @apiParam (body) {String} date of event in format 'YYYY-MM-DD HH:mm:SS'
- *                  {float[2]} array of floats containing longitude/latitude.
- *                  {String} name of party supplier.
- *                  {String} name of caterer.
- *                  {String[]} array of guests invited.
-                    {String} id of the event
- *
- * @apiParamExample {JSON} Request Body Example
- *      {
-            date: '2019-02-09 05:00:00',
-            location: [ 40.423540, -86.921740 ],
-            partySupplier: 'Party City',
-            caterer: 'Chipotle',
-            guests: [ 'Jane Doe', 'Scott Smith', 'George Washington' ]
-        }
- * @apiSuccess {String} message: success.
- * @apiError (RequestFormatError) 422 For missing parameter(s).
- * @apiError (Internal Error) 500+ Internal Error.
-**/
-
-eventRoutes.post('/update', (req, res) => {
-
-    if (!req.body.userName) {
+eventRoutes.post('/update_event', (req, res) => {
+    if (!req.query.token) {
         return res.status(422).send({
             errorType: 'RequestFormatError',
-            message: 'Must include the owner userName.',
+            message: 'Must include the token.',
         });
     }
-
-    if (!req.body.id) {
-        return res.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include the id.',
-        });
-    }
-
-    let event = {};
-    event.owner = req.body.userName;
-    event.id = req.body.id;
-
-    const pool = new Pool({
-        connectionString: connectionString,
-    });
-
-    pool.query(Select_event, [event.owner, event.id, ],  (err, response) => {
-
+    jwt.verify(req.query.token, process.env.secret, function(err, decode) {
         if(err){
-            pool.end();
-            return res.send({
-                errorType: 'InternalError',
-                message: err,
-            });
-        }
-
-        if(!response.rows[0]){
             return res.status(422).send({
-                errorType: 'NoSuchEventError',
-                message: 'Incorrect owner or id.',
+                errorType: 'InvalidTokenError',
+                message: 'invalid or expired token.',
             });
         }
 
-        event.date = req.body.date ? req.body.date : response.rows[0].date;
-        event.location = req.body.location ? req.body.location : response.rows[0].location;
-        event.partySupplier = req.body.partySupplier ? req.body.partySupplier : response.rows[0].partySupplier;
-        event.caterer = req.body.caterer ?  req.body.caterer : response.rows[0].caterer;
-        event.guests = req.body.guests ? req.body.guests : response.rows[0].guests;
+        if (!req.body.id) {
+            return res.status(422).send({
+                errorType: 'RequestFormatError',
+                message: 'Must include the id.',
+            });
+        }
+        let event = {};
+        event.id = req.body.id;
+        event.owner = decode.userName;
+        event.name = req.body.name ? req.body.name : null;
+        event.description = req.body.description ? req.body.description : null;
+        event.date = req.body.date? req.body.date : null ;
+        event.imageLink = req.body.imageLink ? req.body.imageLink : null;
+        event.location = req.body.location ? req.body.location : null;
+        event.partySupplier = req.body.partySupplier ? req.body.partySupplier : null;
+        event.caterer = req.body.caterer ? req.body.caterer : null;
+        event.task = req.body.task ? req.body.task : null;
+        event.guest = req.body.guest ? req.body.guest : null;
+        event.wishlist = req.body.wishlist ? req.body.wishlist : null;
 
-        const pool1 = new Pool({
+        const pool = new Pool({
             connectionString: connectionString,
         });
 
-        pool1.query(Update_event, [event.date, event.location, event.partySupplier, event.caterer, event.guests, event.owner, event.id, ],  (err, response) => {
+        pool.query(Update_event, [event.name, event.description, event.date, 
+            event.imageLink, event.location,
+            event.partySupplier, event.caterer, event.task, event.guest,
+            event.wishlist, event.id, event.owner,  ],  (error, response) => {
 
-            if(err){
-                pool1.end();
+            if(error){
+                pool.end();
                 return res.send({
                     errorType: 'InternalError',
                     message: err,
                 });
             }
-            pool1.end();
+
+            pool.end();
 
             return res.send({
-                message: 'sucess',
+                message: 'success',
             });
         });
 
-        pool.end();
     });
 });
 
