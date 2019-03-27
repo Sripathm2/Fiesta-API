@@ -280,17 +280,17 @@ describe('event-router', function() {
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.message.should.be.eql('success');
-                    res.body.data[1].name.should.be.eql('eventname');
-                    res.body.data[1].owner.should.be.eql('owner1');
-                    res.body.data[1].description.should.be.eql('descrip');
+                    res.body.data[1].name.should.be.eql('eventname1');
+                    res.body.data[1].owner.should.be.eql('owner11');
+                    res.body.data[1].description.should.be.eql('descrip1');
                     res.body.data[1].date.should.be.eql('2019-03-27T12:01:02.000Z');
-                    res.body.data[1].imagelink.should.be.eql('https://test.com');
-                    res.body.data[1].location.should.be.eql('location-1');
-                    res.body.data[1].partysupplier.should.be.eql('walmart');
-                    res.body.data[1].caterer.should.be.eql('subway');
-                    res.body.data[1].task.should.be.eql('task1-user1//**//task2-user2');
-                    res.body.data[1].guest.should.be.eql('//**//guest1--guest1email--yes//**//guest2--guest2email--no//**//guest4--guest4email--');
-                    res.body.data[1].wishlist.should.be.eql('item1//**//item2');
+                    res.body.data[1].imagelink.should.be.eql('https://test.com1');
+                    res.body.data[1].location.should.be.eql('location-11');
+                    res.body.data[1].partysupplier.should.be.eql('walmart1');
+                    res.body.data[1].caterer.should.be.eql('subway1');
+                    res.body.data[1].task.should.be.eql('task1-user1//**//task2-user21');
+                    res.body.data[1].guest.should.be.eql('//**//guest1--guest1email--yes//**//guest2--guest2email--no//**//guest4--guest4email--1');
+                    res.body.data[1].wishlist.should.be.eql('item1//**//item21');
                     done();
                 });
         });
