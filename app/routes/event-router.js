@@ -19,7 +19,7 @@ const Update_event = 'UPDATE Events set name = coalesce( $1, name),' +
                         'caterer = coalesce( $7, caterer),' +
                         'task = coalesce( $8, task),' +
                         'guest = coalesce( $9, guest),' +
-                        'wishlist = coalesce( $10, wishlist),' +
+                        'wishlist = coalesce( $10, wishlist)' +
                         'where id = $11 and owner = $12;';
 const Select_event = 'select * from Events where owner = $1 OR guest LIKE $2';
 
