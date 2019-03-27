@@ -22,7 +22,7 @@ const Update_event = 'UPDATE Events set name = coalesce( $1, name),' +
                         'wishlist = coalesce( $10, wishlist)' +
                         'where id = $11 and owner = $12;';
 const Select_event = 'select * from Events where owner = $1 OR guest LIKE $2';
-const Update_rsvp = 'UPDATE Events SET guest = REPLACE(guest, $1, $2) WHERE id = $3;'
+const Update_rsvp = 'UPDATE Events SET guest = REPLACE(guest, $1, $2) WHERE id = $3;';
 
 // Instantiate router
 
@@ -217,7 +217,6 @@ eventRoutes.get('/update_rsvp', (req, res) => {
         });
     }
 
-
     let event = {};
     event.id = req.query.id;
     event.username = req.query.username;
@@ -227,7 +226,7 @@ eventRoutes.get('/update_rsvp', (req, res) => {
     let newdata = '//**//' + event.username + '--' + event.email + '--' + 'yes';
 
     const pool = new Pool({
-         connectionString: connectionString,
+        connectionString: connectionString,
     });
 
     pool.query(Update_rsvp, [old, newdata, event.id,  ],  (error, response) => {
