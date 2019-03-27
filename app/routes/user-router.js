@@ -12,7 +12,7 @@ const Insert_User = 'INSERT INTO Users (username, password, email , securityques
     'name, notification) VALUES ($1, $2, $3,$4, $5, $6, $7)';
 const Select_User_Forget_Password = 'Select * From Users Where username = $1';
 const Update_User_Forget_Password = 'Update Users Set password = $2 Where username = $1';
-const Select_User = 'Select * From Users';
+const Select_User = 'Select * From Users Where username = $1';
 
 // Instantiate router
 
@@ -24,7 +24,7 @@ let userRoutes = express.Router();
  * @apiGroup user
  *
  * @apiParam (body) {String} userName of the user.
- * @apiParam (body) {String} password of the user.should have a lower caser, upper caser letter a digit and a special symbol.
+ * @apiParam (body) {String} password of the user.
  * @apiParam (body) {String} email of the user.
  * @apiParam (body) {String} securityQuestion of the user.
  * @apiParam (body) {String} securityAnswer of the user.
@@ -108,6 +108,7 @@ userRoutes.post('/register', (req, res) => {
         .has().uppercase()
         .has().lowercase()
         .has().digits()
+        .has().symbols()
         .has().not().spaces();
 
     if(!schema.validate(req.body.password)){
@@ -257,7 +258,7 @@ userRoutes.post('/forgetPassword', (req, res) => {
     let user = {};
     user.userName = req.body.userName;
     user.password = bcrypt.hashSync(req.body.password, 10);
-    user.securityQuestion = req.body.securityQuestion ? ' ': req.body.securityQuestion;
+    user.securityQuestion = req.body.securityQuestion;
     user.securityAnswer = req.body.securityAnswer.toLowerCase();
 
     const pool = new Pool({

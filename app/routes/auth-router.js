@@ -32,7 +32,7 @@ authRoutes.get('/token', (req, res) => {
         });
     }
 
-    if (!req.query.userName) {
+    if (!req.query.password) {
         return res.status(422).send({
             errorType: 'RequestFormatError',
             message: 'Must include the password.',
@@ -64,16 +64,25 @@ authRoutes.get('/token', (req, res) => {
             });
         }
 
-        const payload = {
-                userName: user.userName,
-        };
+        bcrypt.compare(user.password, response.rows[0].password, function(err, res1) {
+            if(res1 === true){
+                const payload = {
+                    userName: user.userName,
+                };
 
-        let token;
-        token = jwt.sign(payload, process.env.secret, {
-            expiresIn: '3000',
-        });
-        res.send({
-            token: token,
+                let token;
+                token = jwt.sign(payload, process.env.secret, {
+                    expiresIn: '10h',
+                });
+                res.send({
+                    token: token,
+                });
+            } else {
+                res.status(401).send({
+                    errorType: 'AuthenticationError',
+                    message: 'Bad user password.',
+                });
+            }
         });
         pool.end();
     });
