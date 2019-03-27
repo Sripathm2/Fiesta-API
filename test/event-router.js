@@ -150,53 +150,21 @@ describe('event-router', function() {
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.message.should.be.eql('success');
-                    res.body.data[0].name.should.be.eql('eventname');
-                    res.body.data[0].owner.should.be.eql('owner1');
-                    res.body.data[0].description.should.be.eql('descrip');
-                    res.body.data[0].date.should.be.eql('2019-03-27T12:01:02.000Z');
-                    res.body.data[0].imageLink.should.be.eql('https://test.com');
-                    res.body.data[0].location.should.be.eql('location-1');
-                    res.body.data[0].partySupplier.should.be.eql('walmart');
-                    res.body.data[0].caterer.should.be.eql('subway');
-                    res.body.data[0].task.should.be.eql('task1-user1//**//task2-user2');
-                    res.body.data[0].guest.should.be.eql('//**//guest1--guest1email--yes//**//guest2--guest2email--no//**//guest4-guest4email--');
-                    res.body.data[0].wishlist.should.be.eql('item1//**//item2');
+                    res.body.data[1].name.should.be.eql('eventname');
+                    res.body.data[1].owner.should.be.eql('owner1');
+                    res.body.data[1].description.should.be.eql('descrip');
+                    res.body.data[1].date.should.be.eql('2019-03-27T12:01:02.000Z');
+                    res.body.data[1].imageLink.should.be.eql('https://test.com');
+                    res.body.data[1].location.should.be.eql('location-1');
+                    res.body.data[1].partySupplier.should.be.eql('walmart');
+                    res.body.data[1].caterer.should.be.eql('subway');
+                    res.body.data[1].task.should.be.eql('task1-user1//**//task2-user2');
+                    res.body.data[1].guest.should.be.eql('//**//guest1--guest1email--yes//**//guest2--guest2email--no//**//guest4-guest4email--');
+                    res.body.data[1].wishlist.should.be.eql('item1//**//item2');
                     done();
                 });
         });
 
-        it('it should succeed with correct fields and guest.', done => {
-
-            const payload = {
-                userName: 'guest4',
-            };
-
-            let token;
-            token = jwt.sign(payload, process.env.secret, {
-                expiresIn: '10h',
-            });
-
-            chai.request(index)
-                .get('/event/get_event')
-                .query({ token: token, })
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    console.log(res.body);
-                    res.body.message.should.be.eql('success');
-                    res.body.data[0].name.should.be.eql('eventname');
-                    res.body.data[0].owner.should.be.eql('owner1');
-                    res.body.data[0].description.should.be.eql('descrip');
-                    res.body.data[0].date.should.be.eql('2019-03-27T12:01:02.000Z');
-                    res.body.data[0].imageLink.should.be.eql('https://test.com');
-                    res.body.data[0].location.should.be.eql('location-1');
-                    res.body.data[0].partySupplier.should.be.eql('walmart');
-                    res.body.data[0].caterer.should.be.eql('subway');
-                    res.body.data[0].task.should.be.eql('task1-user1//**//task2-user2');
-                    res.body.data[0].guest.should.be.eql('//**//guest1--guest1email--yes//**//guest2--guest2email--no//**//guest4-guest4email--');
-                    res.body.data[0].wishlist.should.be.eql('item1//**//item2');
-                    done();
-                });
-        });
 
         it('it should fail with missing token', done => {
 
