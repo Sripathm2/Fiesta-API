@@ -88,7 +88,7 @@ eventRoutes.get('/get_event', (req, res) => {
     }
     jwt.verify(req.query.token, process.env.secret, function(err, decode) {
         if(err){
-            return res.send({
+            return res.status(422).send({
                 errorType: 'InvalidTokenError',
                 message: 'invalid or expired token.',
             });
@@ -113,6 +113,7 @@ eventRoutes.get('/get_event', (req, res) => {
             }
 
             pool.end();
+            console.log(response.rows);
 
             return res.send({
                 message: 'success',
