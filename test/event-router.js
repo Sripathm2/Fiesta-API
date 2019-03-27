@@ -317,7 +317,7 @@ describe('event-router', function() {
                 });
         });
 
-        it('it should fail with missing username.', done => {
+        it('it should fail with missing id.', done => {
 
             const payload = {
             };
