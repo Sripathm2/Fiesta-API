@@ -4,6 +4,7 @@ const { Pool, } = require('pg');
 let nodemailer = require('nodemailer');
 let fs = require('fs');
 const uuidv1 = require('uuid/v1');
+let jwt = require('jsonwebtoken');
 const connectionString = process.env.DB_URL;
 const Insert_event = 'INSERT into Events (id, owner, name, description, date,' +
                        'imageLink, location, partySupplier, caterer,' +
