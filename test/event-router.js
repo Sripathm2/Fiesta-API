@@ -12,16 +12,16 @@ describe('event-router', function() {
         it('it should succeed with correct fields', done => {
 
             let postdata = {
-                name = 'eventname', 
-                description = 'descrip', 
-                date = '2019-03-27T12:01:02+00:00',
-                imageLink = 'https://test.com',
-                location = 'location-1',
-                partySupplier = 'walmart',
-                caterer = 'subway',
-                task = 'task1-user1//**//task2-user2',
-                guest = '//**//guest1--guest1email--yes//**//guest2--guest2email--no//**//guest4-guest4email--',
-                wishlist = 'item1//**//item2', 
+                name: 'eventname', 
+                description: 'descrip', 
+                date: '2019-03-27T12:01:02+00:00',
+                imageLink: 'https://test.com',
+                location: 'location-1',
+                partySupplier: 'walmart',
+                caterer: 'subway',
+                task: 'task1-user1//**//task2-user2',
+                guest: '//**//guest1--guest1email--yes//**//guest2--guest2email--no//**//guest4-guest4email--',
+                wishlist: 'item1//**//item2', 
             };
             const payload = {
                 userName: 'owner1',
@@ -46,16 +46,16 @@ describe('event-router', function() {
         it('it should fail with missing token', done => {
 
             let postdata = {
-                name = 'eventname', 
-                description = 'descrip', 
-                date = '2019-03-27T12:01:02+00:00',
-                imageLink = 'https://test.com',
-                location = 'location-1',
-                partySupplier = 'walmart',
-                caterer = 'subway',
-                task = 'task1-user1//**//task2-user2',
-                guest = '//**//guest1--guest1email--yes//**//guest2--guest2email--no//**//guest4-guest4email--',
-                wishlist = 'item1//**//item2', 
+                name: 'eventname', 
+                description: 'descrip', 
+                date: '2019-03-27T12:01:02+00:00',
+                imageLink: 'https://test.com',
+                location: 'location-1',
+                partySupplier: 'walmart',
+                caterer: 'subway',
+                task: 'task1-user1//**//task2-user2',
+                guest: '//**//guest1--guest1email--yes//**//guest2--guest2email--no//**//guest4-guest4email--',
+                wishlist: 'item1//**//item2', 
             };
 
             chai.request(index)
@@ -72,16 +72,16 @@ describe('event-router', function() {
         it('it should fail with invalid token', done => {
 
             let postdata = {
-                name = 'eventname', 
-                description = 'descrip', 
-                date = '2019-03-27T12:01:02+00:00',
-                imageLink = 'https://test.com',
-                location = 'location-1',
-                partySupplier = 'walmart',
-                caterer = 'subway',
-                task = 'task1-user1//**//task2-user2',
-                guest = '//**//guest1--guest1email--yes//**//guest2--guest2email--no//**//guest4-guest4email--',
-                wishlist = 'item1//**//item2', 
+                name: 'eventname', 
+                description: 'descrip', 
+                date: '2019-03-27T12:01:02+00:00',
+                imageLink: 'https://test.com',
+                location: 'location-1',
+                partySupplier: 'walmart',
+                caterer: 'subway',
+                task: 'task1-user1//**//task2-user2',
+                guest: '//**//guest1--guest1email--yes//**//guest2--guest2email--no//**//guest4-guest4email--',
+                wishlist: 'item1//**//item2', 
             };
 
             chai.request(index)
@@ -99,15 +99,15 @@ describe('event-router', function() {
         it('it should fail with missing date', done => {
 
             let postdata = {
-                name = 'eventname', 
-                description = 'descrip', 
-                imageLink = 'https://test.com',
-                location = 'location-1',
-                partySupplier = 'walmart',
-                caterer = 'subway',
-                task = 'task1-user1//**//task2-user2',
-                guest = '//**//guest1--guest1email--yes//**//guest2--guest2email--no//**//guest4-guest4email--',
-                wishlist = 'item1//**//item2', 
+                name: 'eventname', 
+                description: 'descrip', 
+                imageLink: 'https://test.com',
+                location: 'location-1',
+                partySupplier: 'walmart',
+                caterer: 'subway',
+                task: 'task1-user1//**//task2-user2',
+                guest: '//**//guest1--guest1email--yes//**//guest2--guest2email--no//**//guest4-guest4email--',
+                wishlist: 'item1//**//item2', 
             };
 
             chai.request(index)
