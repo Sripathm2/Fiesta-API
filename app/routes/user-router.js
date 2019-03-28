@@ -160,15 +160,15 @@ userRoutes.post('/register', (req, res) => {
 
 userRoutes.get('/forgetPassword', (req, res) => {
 
-    if (!req.query.userName) {
+    if (!req.query.username) {
         return res.status(422).send({
             errorType: 'RequestFormatError',
-            message: 'Must include the userName.',
+            message: 'Must include the username.',
         });
     }
 
     let user = {};
-    user.userName = req.query.userName;
+    user.userName = req.query.username;
 
     const pool = new Pool({
         connectionString: connectionString,
