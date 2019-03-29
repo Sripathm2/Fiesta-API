@@ -248,13 +248,6 @@ userRoutes.post('/forgetPassword', (req, res) => {
         });
     }
 
-    if (!req.body.securityAnswer) {
-        return res.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include the securityAnswer.',
-        });
-    }
-
     let user = {};
     user.userName = req.body.userName;
     user.password = bcrypt.hashSync(req.body.password, 10);
@@ -286,13 +279,6 @@ userRoutes.post('/forgetPassword', (req, res) => {
             return res.status(422).send({
                 errorType: 'IncorrectQuestionError',
                 message: 'Incorrect Security Question.',
-            });
-        }
-
-        if(response.rows[0].securityanswer !== user.securityAnswer){
-            return res.status(422).send({
-                errorType: 'IncorrectAnswerError',
-                message: 'Incorrect Security Answer.',
             });
         }
 
