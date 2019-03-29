@@ -32,13 +32,6 @@ authRoutes.get('/token', (req, res) => {
         });
     }
 
-    if (!req.query.password) {
-        return res.status(422).send({
-            errorType: 'RequestFormatError',
-            message: 'Must include the password.',
-        });
-    }
-
     let user = {};
     user.userName = req.query.userName;
     user.password = req.query.password;
